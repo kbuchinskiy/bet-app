@@ -1,49 +1,17 @@
-const request = require("request");
-const cheerio = require("cheerio");
-const http = require("http");
-const fs = require("fs");
+import express from "express"
+import ParseService from "./parseService";
 
+const PORT = 7112;
+const URL = "https://www.parimatch.com/en/sport/futbol/anglija-premer-liga";
 
-http.createServer(function (req, res) {
-    if (req.url === "/") {
-        fs.createReadStream(__dirname + '/index.html', 'utf8').pipe(res);
-    } else if (req.url === "/odds") {
-        request('https://www.parimatch.com/en/sport/futbol/anglija-premer-liga', function (error, response, body) {
-            const $ = cheerio.load(body);
-            const table = $("#f1 .wrapper table > tbody > tr");
-            let events = [];
+const parseService = new ParseService(URL);
 
-            table.each(function () {
-                const text = $(this).find('a.om').html();
-                if (text) {
-                    events.push(this)
-                }
-            });
+const app = express();
 
-            events = events.filter(event => !$($(event).find("td").get(2)).text().includes("Home"));
+app.get("/", (req, res) => {
+    parseService.getData().then((data) => {
+        res.send(data);
+    });
+});
 
-            const eventsF = [];
-            events.forEach((event, eventIndex) => {
-                let eventObj = {
-                    teams: [],
-                    odds: []
-                };
-                $(event).find("td").each(function (i, elem) {
-                    if (!eventsF[eventIndex]) {
-                        eventsF.push(eventObj);
-                    }
-                    if (i === 2) {
-                        eventsF[eventIndex].teams = $(elem).find("a").html().split("<br>");
-                    }
-                    if ([8, 9, 10].includes(i)) {
-                        eventsF[eventIndex].odds.push($(elem).find("a").html());
-                    }
-                })
-            });
-
-            res.end(JSON.stringify(eventsF));
-        });
-    }
-
-
-}).listen(7111);
+app.listen(PORT);
