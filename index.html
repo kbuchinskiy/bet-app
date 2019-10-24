@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <title>This is the title of the webpage!</title>
+  <style>
+    .table {
+      display: flex;
+      flex-direction: column;
+    }
+    .row {
+      display: flex;
+    }
+
+    .row > div:first-child {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="table">
+
+  </div>
+
+<script>
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/odds');
+
+    xhr.send();
+
+    xhr.onload = function () {
+        if (xhr.status != 200) {
+            alert(`Error ${xhr.status}: ${xhr.statusText}`);
+            alert(`Done, got ${xhr.response.length} bytes`);
+        } else {
+
+            const data = JSON.parse(xhr.response);
+            const table = document.querySelector(".table");
+
+            for (let i = 0; i < data.length; i++) {
+                const row = document.createElement("DIV");
+                row.classList.add("row");
+
+                const cell1 = document.createElement("div");
+                cell1.innerText = data[i].teams.join(" ");
+                row.appendChild(cell1);
+
+                const cell2 = document.createElement("div");
+                cell2.innerText = data[i].odds.join("   ");
+                row.appendChild(cell2);
+
+                table.appendChild(row);
+            }
+
+
+        }
+    };
+
+</script>
+
+</body>
+</html>
