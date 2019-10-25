@@ -9,7 +9,7 @@ export default class ParseService {
 
     async getData() {
         const data = await this.getResponseData();
-        return this.parseResponseData(data);
+        return this.parseResponseData(data).slice(0, 10);
     }
 
     async getResponseData() {

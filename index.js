@@ -1,6 +1,7 @@
 import express from "express"
 import ParseService from "./parseService";
 import fs from "fs";
+import cors from "cors";
 
 const PORT = 7112;
 const URL = "https://www.parimatch.com/en/sport/futbol/anglija-premer-liga";
@@ -8,7 +9,8 @@ const URL = "https://www.parimatch.com/en/sport/futbol/anglija-premer-liga";
 const parseService = new ParseService(URL);
 
 const app = express();
-app.use('/static', express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/client/dist/'));
+app.use(cors());
 
 app.get("/", (req, res) => {
     fs.createReadStream(__dirname + "/client/dist/index.html").pipe(res);
