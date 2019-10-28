@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">bet-app</v-toolbar-title>
+      <v-toolbar-title>bet-app</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
 

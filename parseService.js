@@ -1,6 +1,8 @@
 import cheerio from "cheerio";
 import axios from "axios";
 
+const TABLE_QUERY_SELECTOR = "#f1 .wrapper > table > tbody";
+
 export default class ParseService {
 
     constructor(url) {
@@ -9,7 +11,7 @@ export default class ParseService {
 
     async getData() {
         const data = await this.getResponseData();
-        return this.parseResponseData(data).slice(0, 10);
+        return this.parseResponseDataHTML(data).slice(0, 10);
     }
 
     async getResponseData() {
@@ -17,41 +19,42 @@ export default class ParseService {
         return response.data;
     }
 
-    parseResponseData(html) {
-        // NEED REFACTOR
+    parseResponseDataHTML(html) {
         const $ = cheerio.load(html);
-        const table = $("#f1 .wrapper table > tbody > tr");
-        let events = [];
+        const rowElements = $(TABLE_QUERY_SELECTOR);
+        let rowElementsFiltered = [];
 
-        table.each(function () {
-            const rowTeamsCell = $(this).find('a.om').text();
-            if (rowTeamsCell && !rowTeamsCell.includes("Home")) {
-                events.push(this)
+        rowElements.each((i, rowElem) => {
+            const hasPropClass = $(rowElem).hasClass("props");
+            const childrenAmount = $(rowElem).find("tr > td").length;
+            const isHomeAwayEvent = $(rowElem).html().includes("Home");
+
+            if (!hasPropClass && childrenAmount > 1 && !isHomeAwayEvent) {
+                rowElementsFiltered.push(rowElem);
             }
         });
 
-        const eventsF = [];
-        events.forEach((event, eventIndex) => {
-            let eventObj = {
+        const rowsData = [];
+
+        rowElementsFiltered.forEach((row, rowIndex) => {
+            let rowData = {
                 teams: [],
                 odds: []
             };
 
-            $(event).find("td").each(function (i, elem) {
-                if (!eventsF[eventIndex]) {
-                    eventsF.push(eventObj);
+            $(row).find("td").each(function (i, cell) {
+                if (!rowsData[rowIndex]) {
+                    rowsData.push(rowData);
                 }
                 if (i === 2) {
-                    eventsF[eventIndex].teams = $(elem).find("a").html().split("<br>");
+                    rowsData[rowIndex].teams = $(cell).find("a").html().split("<br>");
                 }
                 if ([8, 9, 10].includes(i)) {
-                    eventsF[eventIndex].odds.push($(elem).find("a").html());
+                    rowsData[rowIndex].odds.push($(cell).find("a").html());
                 }
             })
         });
 
-        return eventsF;
+        return rowsData;
     }
 }
-
-
