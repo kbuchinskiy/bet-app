@@ -1,36 +1,36 @@
 <template>
   <v-app>
     <v-app-bar app>
+      <v-content></v-content>
       <v-toolbar-title>bet-app</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
-
     <v-content>
-      <bet-list :bet-data="betData">
-
-      </bet-list>
+      <add-matchday></add-matchday>
     </v-content>
   </v-app>
 </template>
 
 <script>
-    import axios from "axios"
-    import BetList from './components/BetList.vue'
+// import axios from "axios";
+// import BetList from './components/BetList.vue'
+import AddMatchday from "./components/AddMatchday.vue";
 
-    export default {
-        name: 'app',
-        components: {
-            BetList
-        },
-        data() {
-            return {
-                betData: []
-            }
-        },
-        created() {
-            axios.get("http://localhost:7112/odds").then(response => {
-                this.betData = response.data;
-            })
-        }
-    }
+export default {
+  name: "app",
+  components: {
+    // BetList,
+    AddMatchday
+  },
+  data() {
+    return {
+      betData: []
+    };
+  },
+  created() {
+    // axios.get("http://localhost:7112/odds").then(response => {
+    //   this.betData = response.data;
+    // });
+  }
+};
 </script>
