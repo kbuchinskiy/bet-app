@@ -3,6 +3,10 @@ import axios from "axios";
 
 const TABLE_QUERY_SELECTOR = "#f1 .wrapper > table > tbody";
 
+// const URL = "https://www.parimatch.com/en/sport/futbol/anglija-premer-liga";
+
+// const parseService = new ParseService(URL);
+
 export default class ParseService {
 
     constructor(url) {
