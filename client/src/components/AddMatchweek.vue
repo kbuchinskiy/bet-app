@@ -3,7 +3,7 @@
     <v-form>
       <v-row justify="center">
         <v-col cols="12" sm="2">
-          <v-text-field v-model="betData.matchday" label="Matchday Id" required></v-text-field>
+          <v-text-field v-model="betData.matchweekId" label="Matchweek Id" required></v-text-field>
         </v-col>
       </v-row>
       <v-row v-for="(match, i) in 10" :key="i" justify="center">
@@ -25,7 +25,7 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="12" sm="3">
-          <v-btn @click="submit">Create Matchday</v-btn>
+          <v-btn @click="submit">Create matchweek</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       betData: {
-        matchday: 1,
+        matchweekId: 1,
         matches: []
       }
     };
@@ -47,7 +47,7 @@ export default {
   methods: {
     submit() {
       axios
-        .post("http://localhost:7112/matchday/create", this.betData)
+        .post("http://localhost:7112/matchweek/create", this.betData)
         .then(res => {
           console.log(res.data);
         });

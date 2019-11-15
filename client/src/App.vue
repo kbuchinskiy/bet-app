@@ -6,7 +6,7 @@
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-content>
-      <add-matchday></add-matchday>
+      <add-matchweek></add-matchweek>
     </v-content>
   </v-app>
 </template>
@@ -14,13 +14,13 @@
 <script>
 // import axios from "axios";
 // import BetList from './components/BetList.vue'
-import AddMatchday from "./components/AddMatchday.vue";
+import AddMatchweek from "./components/AddMatchweek.vue";
 
 export default {
   name: "app",
   components: {
     // BetList,
-    AddMatchday
+    AddMatchweek
   },
   data() {
     return {
