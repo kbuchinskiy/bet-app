@@ -3,24 +3,24 @@
     <v-form>
       <v-row justify="center">
         <v-col cols="12" sm="2">
-          <v-text-field v-model="betData.matchweekId" label="Matchweek Id" required></v-text-field>
+          <v-text-field v-model="matchweekId" label="Matchweek" required></v-text-field>
         </v-col>
       </v-row>
       <v-row v-for="(match, i) in 10" :key="i" justify="center">
         <v-col cols="12" sm="2">
-          <v-text-field v-model="betData.matches[i].team1" label="Team Home" required></v-text-field>
+          <v-text-field v-model="matches[i].teams[0]" label="Home" required></v-text-field>
         </v-col>
         <v-col cols="12" sm="2">
-          <v-text-field v-model="betData.matches[i].team2" label="Team Away" required></v-text-field>
+          <v-text-field v-model="matches[i].teams[1]" label="Away" required></v-text-field>
         </v-col>
         <v-col cols="12" sm="1">
-          <v-text-field v-model="betData.matches[i].w1" label="1" required></v-text-field>
+          <v-text-field v-model="matches[i].odds[0]" label="1" required></v-text-field>
         </v-col>
         <v-col cols="12" sm="1">
-          <v-text-field v-model="betData.matches[i].x" label="X" required></v-text-field>
+          <v-text-field v-model="matches[i].odds[1]" label="X" required></v-text-field>
         </v-col>
         <v-col cols="12" sm="1">
-          <v-text-field v-model="betData.matches[i].w2" label="2" required></v-text-field>
+          <v-text-field v-model="matches[i].odds[2]" label="2" required></v-text-field>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -38,29 +38,26 @@ const GAMES_AMOUNT = 10;
 export default {
   data() {
     return {
-      betData: {
-        matchweekId: 1,
-        matches: []
-      }
+      matchweekId: null,
+      matches: []
     };
   },
   methods: {
     submit() {
       axios
-        .post("http://localhost:7112/matchweek/create", this.betData)
-        .then(res => {
-          console.log(res.data);
-        });
+        .post("http://localhost:7112/matchweek/create", this.matches)
+        .then(res => console.log(res.data));
     }
   },
   created() {
+    axios.get("http://localhost:7112/matchweek/last").then(res => {
+      this.matchweekId = res.data;
+    });
+
     for (let i = 0; i < GAMES_AMOUNT; i++)
-      this.betData.matches.push({
-        team1: "Chelsea",
-        team2: "Arsenal",
-        w1: 1.33,
-        x: 4.0,
-        w2: 3.7
+      this.matches.push({
+        teams: ["Chelsea", "Arsenal"],
+        odds: [1.33, 4.0, 3.7]
       });
   }
 };
