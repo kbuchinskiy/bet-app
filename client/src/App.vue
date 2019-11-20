@@ -1,36 +1,36 @@
 <template>
   <v-app>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item link to="/matchweek/add">
+          <v-list-item-content>
+            <v-list-item-title>Add Matchweek</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/">
+          <v-list-item-content>
+            <v-list-item-title>Matchday</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-app-bar app>
-      <v-content></v-content>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>bet-app</v-toolbar-title>
-      <v-spacer></v-spacer>
     </v-app-bar>
     <v-content>
-      <add-matchweek></add-matchweek>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import axios from "axios";
-// import BetList from './components/BetList.vue'
-import AddMatchweek from "./components/AddMatchweek.vue";
-
 export default {
   name: "app",
-  components: {
-    // BetList,
-    AddMatchweek
-  },
   data() {
     return {
-      betData: []
+      drawer: false
     };
-  },
-  created() {
-    // axios.get("http://localhost:7112/odds").then(response => {
-    //   this.betData = response.data;
-    // });
   }
 };
 </script>
