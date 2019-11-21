@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const matchSchema = new mongoose.Schema({
   id: String,
@@ -6,7 +6,7 @@ export const matchSchema = new mongoose.Schema({
   teams: Array,
   odds: Array,
 }, {
-  retainKeyOrder: true
+  retainKeyOrder: true,
 });
 
-export default mongoose.model("Match", matchSchema, "matches");
+export default mongoose.model('Match', matchSchema, 'matches');
