@@ -28,21 +28,22 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      matchweekId: "",
-      matches: []
+      matchweekId: '',
+      matches: [],
     };
   },
   methods: {},
   created() {
     axios
-      .get("http://localhost:7112/matchweek/", this.matches)
-      .then(res => {
-      this.matches = res.data;
-    });
-  }
+      .get('http://localhost:7113/matchweek/', this.matches)
+      .then((res) => {
+        this.matches = res.data;
+      });
+  },
 };
 </script>

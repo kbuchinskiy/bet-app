@@ -15,13 +15,13 @@
 
 <script>
 export default {
-  name: "BetEventComponent",
+  name: 'BetEventComponent',
   props: {
     eventData: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

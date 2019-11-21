@@ -24,16 +24,16 @@ export default {
   data() {
     return {
       rules: {
-        number: [v => /^[0-9]+.[0-9]+$/.test(v) || "Wrong data"]
+        number: [(v) => /^[0-9]+.[0-9]+$/.test(v) || 'Wrong data'],
       },
       betData: {
-        team1: "Chelsea",
-        team2: "Arsenal",
+        team1: 'Chelsea',
+        team2: 'Arsenal',
         w1: 2.5,
         x: 3.0,
-        w2: 2.5
-      }
+        w2: 2.5,
+      },
     };
-  }
+  },
 };
 </script>

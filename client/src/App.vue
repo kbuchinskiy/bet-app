@@ -2,12 +2,12 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item link to="/matchweek/add">
+        <v-list-item link @click="drawer = false" to="/matchweek/add">
           <v-list-item-content>
             <v-list-item-title>Add Matchweek</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/">
+        <v-list-item link @click="drawer = false" to="/">
           <v-list-item-content>
             <v-list-item-title>Matchday</v-list-item-title>
           </v-list-item-content>
@@ -26,11 +26,11 @@
 
 <script>
 export default {
-  name: "app",
+  name: 'app',
   data() {
     return {
-      drawer: false
+      drawer: false,
     };
-  }
+  },
 };
 </script>

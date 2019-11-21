@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import BetEventComponent from "./BetEventComponent";
+import BetEventComponent from './BetEventComponent.vue';
 
 export default {
-  name: "BetList",
+  name: 'BetList',
   components: {
-    BetEventComponent
+    BetEventComponent,
   },
   props: {
     betData: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

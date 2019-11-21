@@ -33,32 +33,33 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
+
 const GAMES_AMOUNT = 10;
 export default {
   data() {
     return {
       matchweekId: null,
-      matches: []
+      matches: [],
     };
   },
   methods: {
     submit() {
       axios
-        .post("http://localhost:7112/matchweek/create", this.matches)
-        .then(res => console.log(res.data));
-    }
+        .post('http://localhost:7113/matchweek/cereate', this.matches);
+    },
   },
   created() {
-    axios.get("http://localhost:7112/matchweek/last").then(res => {
+    axios.get('http://localhost:7113/matchweek/last').then((res) => {
       this.matchweekId = res.data;
     });
 
-    for (let i = 0; i < GAMES_AMOUNT; i++)
+    for (let i = 0; i < GAMES_AMOUNT; i++) {
       this.matches.push({
-        teams: ["Chelsea", "Arsenal"],
-        odds: [1.33, 4.0, 3.7]
+        teams: ['Chelsea', 'Arsenal'],
+        odds: [1.33, 4.0, 3.7],
       });
-  }
+    }
+  },
 };
 </script>
