@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <div class="d-flex justify-space-between align-start my-5">
+      <v-btn @click="changeMatchweek(-1)"
+        :disabled="matchweek.id === 1">Prev</v-btn>
+      <p class="ma-auto headline">Matchweek {{ matchweek.id }} of {{ matchweeksAmount }}</p>
+      <v-btn @click="changeMatchweek(1)"
+        :disabled="matchweek.id === matchweeksAmount">Next</v-btn>
+    </div>
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -12,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in matches" :key="item.name">
+          <tr v-for="item in matchweek.matches" :key="item.name">
             <td class="text-left">
               {{ item.teams[0] }}
               <br />
@@ -28,22 +35,25 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      matchweekId: '',
-      matches: [],
-    };
+  watch: {
+    '$route.query': 'getMatchweek',
   },
-  methods: {},
-  created() {
-    axios
-      .get('http://localhost:7113/matchweek/', this.matches)
-      .then((res) => {
-        this.matches = res.data;
-      });
+  computed: {
+    ...mapState({
+      matchweek: 'lastMatchweek',
+      matchweeksAmount: 'matchweeksAmount',
+    }),
+  },
+  methods: {
+    changeMatchweek(direction) {
+      const nextMatchweek = this.matchweek.id + direction;
+      if (nextMatchweek > 0 && nextMatchweek <= this.matchweeksAmount) {
+        this.$store.dispatch('setLastMatchweek', this.matchweek.id + direction);
+      }
+    },
   },
 };
 </script>
