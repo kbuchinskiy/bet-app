@@ -1,43 +1,49 @@
 /* eslint-disable no-param-reassign */
-import Match from '../models/matchweek';
+import Matchweek from '../models/matchweek';
+
+function getCurrent(res) {
+  Matchweek
+    .find()
+    .sort({ id: -1 })
+    .limit(1)
+    .then((matchweeks) => {
+      res.send(matchweeks[0]);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
 export function create(req, res) {
-  const { matchweek } = req.body;
+  const matchweekData = req.body;
+  const newMatchweekCollection = new Matchweek(matchweekData);
 
-  let matches = req.body;
-  matches = matches.map((match, index) => {
-    match.id = `${matchweek}_${index + 1}`;
-    match.matchweek = matchweek;
-    return match;
-  });
-
-  Match
-    .insertMany(matches)
+  newMatchweekCollection
+    .save()
     .then(() => res.end('added'))
-    .catch((e) => res.end(e));
-}
-export function read(req, res) {
-  Match
-    .find()
-    .then((matches) => {
-      res.end(JSON.stringify(matches));
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch((e) => console.log(e));
 }
 
-export function getLast(req, res) {
-  Match
-    .find()
-    .sort({
-      $natural: -1,
-    })
-    .limit(1)
-    .then((matches) => {
-      res.end(JSON.stringify(matches[0].matchweek));
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+export function getAmount(req, res) {
+  Matchweek.countDocuments()
+    .then((amount) => res.send(`${amount}`))
+    .catch((e) => console.log(e));
+}
+
+export function read(req, res) {
+  if (req.query.id === 'current') {
+    getCurrent(res);
+  } else {
+    Matchweek
+      .findOne({ id: req.query.id })
+      .then((matchweek) => {
+        if (!matchweek) {
+          res.status(404);
+        }
+        res.send(matchweek);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 }

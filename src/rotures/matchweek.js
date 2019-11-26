@@ -1,11 +1,10 @@
 import express from 'express';
-import { create, read, getLast } from '../controllers/matchweek';
+import { create, read, getAmount } from '../controllers/matchweek';
 
 const router = express.Router();
 
 router.post('/create', create);
-router.get('/', read);
-router.get('/last', getLast);
-
+router.get('/read', read);
+router.get('/amount', getAmount);
 
 export default router;

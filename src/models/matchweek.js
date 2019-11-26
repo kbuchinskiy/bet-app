@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 
-export const matchSchema = new mongoose.Schema({
-  id: String,
-  matchweek: Number,
-  teams: Array,
-  odds: Array,
-}, {
-  retainKeyOrder: true,
+export const matchweekSchema = new mongoose.Schema({
+  id: Number,
+  matches: [
+    {
+      teams: Array,
+      odds: Array,
+    },
+  ],
 });
 
-export default mongoose.model('Match', matchSchema, 'matches');
+export default mongoose.model('Matchweek', matchweekSchema, 'matchweeks');
