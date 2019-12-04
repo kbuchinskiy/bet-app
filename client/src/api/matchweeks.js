@@ -22,7 +22,7 @@ export default class matchweeksAPI {
   }
 
   static async createMatchweek(matchweek) {
-    axios
+    return axios
       .post('http://localhost:7113/matchweek/create', matchweek)
       .then((res) => res.data)
       .catch((e) => {

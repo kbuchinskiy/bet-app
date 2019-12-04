@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Matchweek from './components/Matchweek.vue';
-import MatchweekCreate from './components/MatchweekCreate.vue';
+import Matchweek from './views/Matchweek.vue';
+import MatchweekCreate from './views/MatchweekCreate.vue';
 
 Vue.use(Router);
 
@@ -11,22 +11,22 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: 'matchweek',
       name: 'home',
-      component: Matchweek,
     },
     {
-      path: '/matchweek/create',
-      name: 'matchweek-create',
+      path: '/createMatchweek',
+      name: 'create-matchweek',
       component: MatchweekCreate,
     },
     {
-      path: '/matchweek/view',
+      path: '/matchweek',
       name: 'matchweek-view-current',
       component: Matchweek,
     },
     {
-      path: '/matchweek/view/:id',
-      name: 'matchweek-view',
+      path: '/matchweek/:id',
+      name: 'matchweek-view-id',
       component: Matchweek,
     },
   ],

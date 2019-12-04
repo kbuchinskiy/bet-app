@@ -55,7 +55,8 @@ export default {
   methods: {
     submit() {
       this.matchweek.id = this.newMatchweekId;
-      matchweeksAPI.createMatchweek(this.matchweek);
+      matchweeksAPI
+        .createMatchweek(this.matchweek);
     },
   },
   created() {

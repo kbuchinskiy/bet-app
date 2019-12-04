@@ -35,25 +35,48 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import matchweeksAPI from '../api/matchweeks';
 
 export default {
-  watch: {
-    '$route.query': 'getMatchweek',
+  data() {
+    return {
+      matchweek: {
+        id: null,
+        matchweek: [],
+      },
+      matchweeksAmount: null,
+    };
   },
-  computed: {
-    ...mapState({
-      matchweek: 'lastMatchweek',
-      matchweeksAmount: 'matchweeksAmount',
-    }),
+  watch: {
+    '$route.params': 'updateMatchweek',
   },
   methods: {
-    changeMatchweek(direction) {
-      const nextMatchweek = this.matchweek.id + direction;
-      if (nextMatchweek > 0 && nextMatchweek <= this.matchweeksAmount) {
-        this.$store.dispatch('setLastMatchweek', this.matchweek.id + direction);
-      }
+    async updateMatchweek() {
+      this.matchweek = await matchweeksAPI.getMatchweekById(this.$route.params.id);
     },
+    async changeMatchweek(direction) {
+      const nextMatchweek = this.matchweek.id + direction;
+      const params = {
+        id: nextMatchweek,
+      };
+
+      this.$router
+        .push({ name: 'matchweek-view', params })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    async init() {
+      if (this.$route.params.id) {
+        this.updateMatchweek();
+      } else {
+        this.matchweek = await matchweeksAPI.getMatchweekById('current');
+      }
+      this.matchweeksAmount = await matchweeksAPI.getTotalAmount();
+    },
+  },
+  created() {
+    this.init();
   },
 };
 </script>
