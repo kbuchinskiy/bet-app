@@ -61,10 +61,7 @@ export default {
       };
 
       this.$router
-        .push({ name: 'matchweek-view', params })
-        .catch((e) => {
-          console.log(e);
-        });
+        .push({ name: 'matchweek-view-id', params });
     },
     async init() {
       if (this.$route.params.id) {
