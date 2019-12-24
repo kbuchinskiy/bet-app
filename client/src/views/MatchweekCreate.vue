@@ -64,7 +64,7 @@ export default {
   created() {
     for (let i = 0; i < 10; i++) {
       this.matchweek.matches.push({
-        teams: [`Hosts${i}`, `Guests ${i}`],
+        teams: ['Team Home', 'Team Away'],
         odds: [1.33, 4.0, 3.7],
       });
     }
