@@ -9,7 +9,12 @@
         </v-list-item>
         <v-list-item link @click="drawer = false" to="/">
           <v-list-item-content>
-            <v-list-item-title>Matchday</v-list-item-title>
+            <v-list-item-title>Matchweek</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="drawer = false" to="/bettingRoom">
+          <v-list-item-content>
+            <v-list-item-title>Betting Room</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
