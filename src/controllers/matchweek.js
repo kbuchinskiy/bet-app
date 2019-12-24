@@ -26,7 +26,9 @@ export function create(req, res) {
 
 export function getAmount(req, res) {
   Matchweek.countDocuments()
-    .then((amount) => res.send(`${amount}`))
+    .then((amount) => {
+      res.send(`${amount || 0}`);
+    })
     .catch((e) => console.log(e));
 }
 

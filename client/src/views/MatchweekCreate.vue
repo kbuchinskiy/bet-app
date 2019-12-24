@@ -45,27 +45,31 @@ export default {
         id: null,
         matches: [],
       },
+      newMatchweekId: null,
     };
-  },
-  computed: {
-    newMatchweekId() {
-      return this.$store.state.lastMatchweek.id + 1;
-    },
   },
   methods: {
     submit() {
       this.matchweek.id = this.newMatchweekId;
       matchweeksAPI
-        .createMatchweek(this.matchweek);
+        .createMatchweek(this.matchweek)
+        .then(() => {
+          this.setNewMatchweekId();
+        });
+    },
+    async setNewMatchweekId() {
+      this.newMatchweekId = await matchweeksAPI.getTotalAmount() + 1;
     },
   },
   created() {
     for (let i = 0; i < 10; i++) {
       this.matchweek.matches.push({
-        teams: ['New Castle', 'Wolves'],
+        teams: [`Hosts${i}`, `Guests ${i}`],
         odds: [1.33, 4.0, 3.7],
       });
     }
+    this.setNewMatchweekId();
+
 
     axios
       .get('http://localhost:7113/teams')
