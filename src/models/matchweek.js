@@ -4,8 +4,10 @@ export const matchweekSchema = new mongoose.Schema({
   id: Number,
   matches: [
     {
+      id: String,
       teams: Array,
       odds: Array,
+      score: Array,
     },
   ],
 });

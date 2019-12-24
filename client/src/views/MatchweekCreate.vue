@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-form>
-      <v-row justify="center">
+      <!-- <v-row justify="center">
         <v-col cols="12" sm="2">
           <v-text-field v-model="newMatchweekId" label="Matchweek" required></v-text-field>
         </v-col>
@@ -22,7 +22,7 @@
         <v-col cols="12" sm="1">
           <v-text-field v-model="matchweek.matches[i].odds[2]" label="2" required></v-text-field>
         </v-col>
-      </v-row>
+      </v-row> -->
       <v-row justify="center">
         <v-col cols="12" sm="2">
           <v-btn @click="submit">Create</v-btn>
@@ -61,14 +61,15 @@ export default {
       this.newMatchweekId = await matchweeksAPI.getTotalAmount() + 1;
     },
   },
-  created() {
+  async created() {
+    await this.setNewMatchweekId();
     for (let i = 0; i < 10; i++) {
       this.matchweek.matches.push({
+        id: `${this.newMatchweekId}_${i}`,
         teams: ['Team Home', 'Team Away'],
         odds: [1.33, 4.0, 3.7],
       });
     }
-    this.setNewMatchweekId();
 
 
     axios

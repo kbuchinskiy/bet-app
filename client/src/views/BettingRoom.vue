@@ -4,6 +4,7 @@
       v-for="(match, index) in matchweek.matches"
       :key="index"
       :match-data="match"
+      @outcomeChosen="outcomeChosen"
     ></match-bet>
   </v-container>
 </template>
@@ -21,11 +22,15 @@ export default {
       matchweek: [],
     };
   },
+  methods: {
+    outcomeChosen(betData) {
+      console.log(betData);
+    },
+  },
   created() {
-    matchweeksAPI.getMatchweekById('current')
-      .then((data) => {
-        this.matchweek = data;
-      });
+    matchweeksAPI.getMatchweekById('current').then((data) => {
+      this.matchweek = data;
+    });
   },
 };
 </script>
