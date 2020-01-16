@@ -5,10 +5,14 @@
       <br />
       {{ matchData.teams[1] }}
     </p>
-    <v-btn-toggle v-model="outcomeBet" @change="betChoise()" :tile="true">
+    <v-btn-toggle
+      v-model="outcomeBet"
+      @change="betChoice()"
+      :tile="true">
       <v-btn
         v-for="(odd, index) in matchData.odds"
         :key="index"
+        :disabled="disabled"
         :value="index">{{ odd }}</v-btn>
     </v-btn-toggle>
   </v-container>
@@ -19,16 +23,17 @@ export default {
   data() {
     return {
       outcomeBet: null,
+      disabled: true,
     };
   },
   props: {
     matchData: null,
   },
   methods: {
-    betChoise() {
+    betChoice() {
       const betData = {
         outcome: this.outcomeBet,
-        matchData: this.matchData,
+        matchId: this.matchData.id,
       };
       this.$emit('outcomeChosen', betData);
     },

@@ -5,6 +5,7 @@ import fs from 'fs';
 // import ParseService from './parseService';
 import matchweek from './src/rotures/matchweek';
 import teams from './src/rotures/teams';
+import bet from './src/rotures/bet';
 import dbConnect from './src/dbStartup';
 
 
@@ -19,6 +20,7 @@ app.use(express.static(`${__dirname}/client/dist/`));
 app.use(cors());
 app.use('/matchweek', matchweek);
 app.use('/teams', teams);
+app.use('/bet', bet);
 app.get('/', (req, res) => {
   fs.createReadStream(`${__dirname}/client/dist/index.html`).pipe(res);
 });

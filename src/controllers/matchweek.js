@@ -16,6 +16,12 @@ function getCurrent(res) {
 
 export function create(req, res) {
   const matchweekData = req.body;
+
+  matchweekData.matches = matchweekData.matches.map((match, i) => {
+    match.id = `${matchweekData.id}_${i}`;
+    return match;
+  });
+
   const newMatchweekCollection = new Matchweek(matchweekData);
 
   newMatchweekCollection
