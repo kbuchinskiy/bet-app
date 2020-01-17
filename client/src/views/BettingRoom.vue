@@ -6,7 +6,7 @@
           v-for="(match, index) in matchweek.matches"
           :key="index"
           :match-data="match"
-          :disabled="placedBets.toString().includes(match.id)"
+          :disabled="placedBets.includes(match.id)"
           @outcomeChosen="outcomeChosen"
         ></match-bet>
       </v-col>
