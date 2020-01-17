@@ -6,7 +6,7 @@
           v-for="(match, index) in matchweek.matches"
           :key="index"
           :match-data="match"
-          :disabled="isBetPlaced()"
+          :disabled="!existedBets.length"
           @outcomeChosen="outcomeChosen"
         ></match-bet>
       </v-col>
@@ -31,6 +31,7 @@ export default {
     return {
       betCart: [],
       matchweek: [],
+      existedBets: [],
     };
   },
   methods: {
@@ -45,31 +46,31 @@ export default {
     betsPlaced() {
       axios.post('http://localhost:7113/bet/add', this.betCart)
         .then((res) => {
-          console.log(res.data);
+          this.existedBets = res.data;
         })
         .catch((e) => {
           console.log(e);
         });
-    },
-    isBetPlaced() {
-      return true;
     },
   },
-  created() {
-    matchweeksAPI.getMatchweekById('current').then((data) => {
+  watch: {
+
+  },
+  async created() {
+    await matchweeksAPI.getMatchweekById('current').then((data) => {
       this.matchweek = data;
-
-
-      axios.get('http://localhost:7113/bet/get', {
-        params: { betsToCheck: this.matchweek.matches.map((match) => match.id) },
-      })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     });
+
+    axios.get('http://localhost:7113/bet/get', {
+      params: { betsToCheck: this.matchweek.matches.map((match) => match.id) },
+    })
+      .then((res) => {
+        this.existedBets = res.data;
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
 };
 </script>

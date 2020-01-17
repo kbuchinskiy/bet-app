@@ -20,15 +20,18 @@
 
 <script>
 export default {
+  props: {
+    disabled: {
+      default: true,
+    },
+    matchData: null,
+  },
   data() {
     return {
       outcomeBet: null,
-      disabled: true,
     };
   },
-  props: {
-    matchData: null,
-  },
+
   methods: {
     betChoice() {
       const betData = {

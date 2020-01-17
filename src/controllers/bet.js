@@ -11,21 +11,23 @@ export function add(req, res) {
 }
 
 
-export function get(req, res) {
+export async function get(req, res) {
   const { betsToCheck } = req.query;
   console.log(betsToCheck);
 
   const exisedBets = [];
   if (betsToCheck) {
-    betsToCheck
-      .slice(0, 1)
-      .forEach((matchId) => {
-        Bet
-          .find({ matchId })
+    await betsToCheck
+      .forEach(async (matchId) => {
+        await Bet
+          .findOne({ matchId })
           .then((bet) => {
-            exisedBets.push(bet);
-            res.send(exisedBets);
+            if (bet) {
+              exisedBets.push(bet.matchId);
+            }
           });
       });
+
+    res.send(exisedBets);
   }
 }
