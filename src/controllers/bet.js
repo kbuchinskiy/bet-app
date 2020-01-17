@@ -13,21 +13,13 @@ export function add(req, res) {
 
 export async function get(req, res) {
   const { betsToCheck } = req.query;
-  console.log(betsToCheck);
-
-  const exisedBets = [];
   if (betsToCheck) {
-    await betsToCheck
-      .forEach(async (matchId) => {
-        await Bet
-          .findOne({ matchId })
-          .then((bet) => {
-            if (bet) {
-              exisedBets.push(bet.matchId);
-            }
-          });
-      });
+    const placedBetsQueries = betsToCheck
+      .map((matchId) => Bet.findOne({ matchId }));
 
-    res.send(exisedBets);
+    await Promise.all(placedBetsQueries)
+      .then((data) => {
+        res.send(data.filter((bet) => bet).map((bet) => bet.matchId));
+      });
   }
 }
