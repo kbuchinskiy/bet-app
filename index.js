@@ -24,5 +24,14 @@ app.use('/bet', bet);
 app.get('/', (req, res) => {
   fs.createReadStream(`${__dirname}/client/dist/index.html`).pipe(res);
 });
-app.listen(PORT);
+const server = app.listen(PORT);
+process.on('exit', () => {
+  server.close();
+});
+process.on('uncaughtException', () => {
+  server.close();
+});
+process.on('SIGTERM', () => {
+  server.close();
+});
 console.log(`http://localhost:${PORT}`);
