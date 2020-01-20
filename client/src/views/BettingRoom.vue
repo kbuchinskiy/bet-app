@@ -6,12 +6,16 @@
           v-for="(match, index) in matchweek.matches"
           :key="index"
           :match-data="match"
-          :disabled="placedBets.includes(match.id)"
+          :disabled="placedBets.some(bet => bet.matchId === match.id)"
+          :placed-outcome="placedBets.find(bet => bet.matchId === match.id)"
           @outcomeChosen="outcomeChosen"
         ></match-bet>
       </v-col>
       <v-col>
-        <v-btn class="mt-4" @click="betsPlaced()" :disabled="!betCart.length">Place bet</v-btn>
+        <v-container class="mt-4 d-flex flex-column align-center">
+          <v-btn class="mb-4" @click="betsPlaced()" :disabled="!betCart.length">Place bet</v-btn>
+          <v-btn @click="cleanBetsCollections()">clean bets</v-btn>
+        </v-container>
       </v-col>
     </v-row>
 
@@ -37,7 +41,7 @@ export default {
   methods: {
     outcomeChosen(betData) {
       console.log(betData);
-      if (betData.outcome) {
+      if (Number.isInteger(betData.outcome)) {
         this.betCart.push(betData);
       } else {
         this.betCart = this.betCart.filter((bet) => bet.matchId !== betData.matchId);
@@ -47,6 +51,8 @@ export default {
       axios.post('http://localhost:7113/bet/add', this.betCart)
         .then((res) => {
           console.log(res.data);
+          this.getPlacedBets();
+          this.betCart = [];
         })
         .catch((e) => {
           console.log(e);
@@ -64,6 +70,16 @@ export default {
         })
         .then((res) => {
           this.placedBets = res.data;
+        })
+        .catch((e) => console.log(e));
+    },
+    cleanBetsCollections() {
+      axios
+        .get('http://localhost:7113/bet/clean', {
+          params: { betsToCheck: this.matchweek.matches.map((match) => match.id) },
+        })
+        .then(() => {
+          this.placedBets = [];
         })
         .catch((e) => console.log(e));
     },

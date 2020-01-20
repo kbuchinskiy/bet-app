@@ -1,7 +1,6 @@
 import Bet from '../models/bet';
 
 export function add(req, res) {
-  console.log(req.body);
   Bet
     .collection
     .insertMany(...[req.body])
@@ -11,6 +10,14 @@ export function add(req, res) {
 }
 
 
+export function clean(req, res) {
+  Bet
+    .collection
+    .remove({})
+    .then(() => res.end('cleaned'))
+    .catch((e) => console.log(e));
+}
+
 export async function get(req, res) {
   const { betsToCheck } = req.query;
   if (betsToCheck) {
@@ -19,7 +26,7 @@ export async function get(req, res) {
 
     await Promise.all(placedBetsQueries)
       .then((data) => {
-        res.send(data.filter((bet) => bet).map((bet) => bet.matchId));
+        res.send(data.filter((bet) => bet));
       });
   }
 }

@@ -25,6 +25,7 @@ export default {
       default: true,
     },
     matchData: null,
+    placedOutcome: null,
   },
   data() {
     return {
@@ -39,6 +40,13 @@ export default {
         matchId: this.matchData.id,
       };
       this.$emit('outcomeChosen', betData);
+    },
+  },
+  watch: {
+    disabled() {
+      if (this.disabled) {
+        this.outcomeBet = this.placedOutcome.outcome;
+      }
     },
   },
 };
