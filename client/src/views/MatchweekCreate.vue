@@ -3,7 +3,7 @@
     <v-form>
       <v-row justify="center">
         <v-col cols="12" sm="2">
-          <v-text-field v-model="newMatchweekId" label="Matchweek" required></v-text-field>
+          <v-text-field v-model="matchweek.id" label="Matchweek" required></v-text-field>
         </v-col>
       </v-row>
       <v-row  v-for="(match, i) in this.matchweek.matches" :key="i" justify="center">
@@ -47,16 +47,9 @@ export default {
       },
     };
   },
-  computed: {
-    newMatchweekId() {
-      return this.$store.state.lastMatchweek.id && 1;
-    },
-  },
   methods: {
     submit() {
-      this.matchweek.id = this.newMatchweekId;
-      matchweeksAPI
-        .createMatchweek(this.matchweek);
+      matchweeksAPI.createMatchweek(this.matchweek);
     },
   },
   created() {
@@ -71,6 +64,13 @@ export default {
       .get('http://localhost:7113/teams')
       .then((res) => {
         this.teams = res.data;
+      });
+
+    matchweeksAPI
+      .getMatchweekById('current')
+      .then((matchweek) => {
+        console.log(matchweek);
+        this.matchweek.id = matchweek ? matchweek.id + 1 : 1;
       });
   },
 };

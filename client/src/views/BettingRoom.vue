@@ -53,6 +53,7 @@ export default {
           console.log(res.data);
           this.getPlacedBets();
           this.betCart = [];
+          this.betsPlaced = [];
         })
         .catch((e) => {
           console.log(e);
