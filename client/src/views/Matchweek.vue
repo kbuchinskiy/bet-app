@@ -1,12 +1,8 @@
 <template>
   <v-container>
-    <div class="d-flex justify-space-between align-start my-5">
-      <v-btn @click="changeMatchweek(-1)"
-        :disabled="matchweek.id === 1">Prev</v-btn>
-      <p class="ma-auto headline">Matchweek {{ matchweek.id }} of {{ matchweeksAmount }}</p>
-      <v-btn @click="changeMatchweek(1)"
-        :disabled="matchweek.id === matchweeksAmount">Next</v-btn>
-    </div>
+    <matchweek-pagination
+    @matchweekUpdated="updateMatchweek"
+    basePath="matchweek-view-id"></matchweek-pagination>
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -35,45 +31,25 @@
 </template>
 
 <script>
-import matchweeksAPI from '../api/matchweeks';
+import MatchweekPagination from '../components/MatchweekPagination.vue';
 
 export default {
+  components: {
+    MatchweekPagination,
+  },
   data() {
     return {
       matchweek: {
         id: null,
-        matchweek: [],
+        matches: [],
       },
-      matchweeksAmount: null,
     };
   },
-  watch: {
-    '$route.params': 'updateMatchweek',
-  },
   methods: {
-    async updateMatchweek() {
-      this.matchweek = await matchweeksAPI.getMatchweekById(this.$route.params.id);
+    updateMatchweek(payload) {
+      this.matchweek = payload;
     },
-    async changeMatchweek(direction) {
-      const nextMatchweek = this.matchweek.id + direction;
-      const params = {
-        id: nextMatchweek,
-      };
+  },
 
-      this.$router
-        .push({ name: 'matchweek-view-id', params });
-    },
-    async init() {
-      if (this.$route.params.id) {
-        this.updateMatchweek();
-      } else {
-        this.matchweek = await matchweeksAPI.getMatchweekById('current');
-      }
-      this.matchweeksAmount = await matchweeksAPI.getTotalAmount();
-    },
-  },
-  created() {
-    this.init();
-  },
 };
 </script>

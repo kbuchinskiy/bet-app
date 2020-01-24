@@ -2,9 +2,14 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item link @click="drawer = false" to="/createMatchweek">
+        <v-list-item link @click="drawer = false" to="/matchweekCreate">
           <v-list-item-content>
             <v-list-item-title>Add Matchweek</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="drawer = false" to="/matchweekUpdate">
+          <v-list-item-content>
+            <v-list-item-title>Update Matchweek</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link @click="drawer = false" to="/">

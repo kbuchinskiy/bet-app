@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Matchweek from './views/Matchweek.vue';
 import MatchweekCreate from './views/MatchweekCreate.vue';
+import MatchweekUpdate from './views/MatchweekUpdate.vue';
 import BettingRoom from './views/BettingRoom.vue';
 
 Vue.use(Router);
@@ -16,9 +17,19 @@ export default new Router({
       name: 'home',
     },
     {
-      path: '/createMatchweek',
-      name: 'create-matchweek',
+      path: '/matchweekCreate',
+      name: 'matchweek-create',
       component: MatchweekCreate,
+    },
+    {
+      path: '/matchweekUpdate',
+      name: 'matchweek-update-current',
+      component: MatchweekUpdate,
+    },
+    {
+      path: '/matchweekUpdate/:id',
+      name: 'matchweek-update-id',
+      component: MatchweekUpdate,
     },
     {
       path: '/matchweek',

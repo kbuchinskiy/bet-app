@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     'Burnley',
     'Brighton',
     'Crystal Palace',
-    'Newcastle',
+    'New Castle',
     'Tottenham',
     'Everton',
     'West Ham',
