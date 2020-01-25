@@ -30,7 +30,7 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="12" sm="2">
-          <v-btn @click="submit">Create</v-btn>
+          <v-btn @click="submit">Update</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -58,7 +58,11 @@ export default {
   },
   methods: {
     submit() {
-      matchweeksAPI.createMatchweek(this.matchweek);
+      matchweeksAPI
+        .updateMatchweek(this.matchweek)
+        .then((updatedItem) => {
+          this.matchweek = updatedItem;
+        });
     },
     updateMatchweek(payload) {
       this.matchweek = payload;

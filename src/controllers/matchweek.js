@@ -1,6 +1,18 @@
 /* eslint-disable no-param-reassign */
 import Matchweek from '../models/matchweek';
 
+export function update(req, res) {
+  const filter = { id: req.body.id };
+  const dataToUpdate = { matches: req.body.matches };
+  Matchweek
+    .findOneAndUpdate(filter, dataToUpdate, {
+      new: true,
+    })
+    .then((updatedItem) => {
+      res.send(updatedItem);
+    });
+}
+
 function getCurrent(res) {
   Matchweek
     .find()
@@ -22,9 +34,7 @@ export function create(req, res) {
     return match;
   });
 
-  const newMatchweekCollection = new Matchweek(matchweekData);
-
-  newMatchweekCollection
+  new Matchweek(matchweekData)
     .save()
     .then(() => res.end('added'))
     .catch((e) => console.log(e));

@@ -29,4 +29,11 @@ export default class matchweeksAPI {
         console.log(e);
       });
   }
+
+  static async updateMatchweek(matchweek) {
+    return axios
+      .post('http://localhost:7113/matchweek/update', matchweek)
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
+  }
 }

@@ -5,6 +5,7 @@ export default function connectDb() {
   mongoose.connect(`mongodb+srv://test:${password}@cluster0-97zcj.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   }).catch((e) => {
     console.log(e);
   }).then(() => {
