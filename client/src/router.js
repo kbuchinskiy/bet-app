@@ -4,6 +4,7 @@ import Matchweek from './views/Matchweek.vue';
 import MatchweekCreate from './views/MatchweekCreate.vue';
 import MatchweekUpdate from './views/MatchweekUpdate.vue';
 import BettingRoom from './views/BettingRoom.vue';
+import NotFound from './views/NotFound.vue';
 
 Vue.use(Router);
 
@@ -43,8 +44,13 @@ export default new Router({
     },
     {
       path: '/bettingRoom',
-      name: 'beeting-roo,',
+      name: 'beeting-room',
       component: BettingRoom,
+    },
+    {
+      path: '*',
+      name: 'not-found',
+      component: NotFound,
     },
   ],
 });

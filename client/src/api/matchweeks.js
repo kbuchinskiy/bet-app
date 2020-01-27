@@ -5,9 +5,7 @@ export default class matchweeksAPI {
     return axios
       .get('http://localhost:7113/matchweek/amount')
       .then((res) => res.data)
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   }
 
   static async getMatchweekById(ID) {
@@ -16,18 +14,14 @@ export default class matchweeksAPI {
         params: { id: ID },
       })
       .then((res) => res.data)
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   }
 
   static async createMatchweek(matchweek) {
     return axios
       .post('http://localhost:7113/matchweek/create', matchweek)
       .then((res) => res.data)
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   }
 
   static async updateMatchweek(matchweek) {
