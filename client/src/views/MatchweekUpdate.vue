@@ -39,7 +39,7 @@
 
 <script>
 import axios from 'axios';
-import matchweeksAPI from '../api/matchweeks';
+import matchweeksAPI from '../api/matchweeksAPI';
 import MatchweekPagination from '../components/MatchweekPagination.vue';
 
 export default {

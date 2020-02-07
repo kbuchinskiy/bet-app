@@ -25,7 +25,8 @@
 <script>
 import axios from 'axios';
 import MatchBet from '../components/MatchBet.vue';
-import matchweeksAPI from '../api/matchweeks';
+import matchweeksAPI from '../api/matchweeksAPI';
+import betAPI from '../api/betAPI';
 
 export default {
   components: {
@@ -49,8 +50,7 @@ export default {
     },
     betsPlaced() {
       axios.post('http://localhost:7113/bet/add', this.betCart)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           this.getPlacedBets();
           this.betCart = [];
           this.betsPlaced = [];
@@ -65,14 +65,7 @@ export default {
       });
     },
     async getPlacedBets() {
-      axios
-        .get('http://localhost:7113/bet/get', {
-          params: { betsToCheck: this.matchweek.matches.map((match) => match.id) },
-        })
-        .then((res) => {
-          this.placedBets = res.data;
-        })
-        .catch((e) => console.log(e));
+      this.placedBets = await betAPI.getPlacedBets(this.matchweek.matches);
     },
     cleanBetsCollections() {
       axios

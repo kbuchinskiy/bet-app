@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import matchweeksAPI from '../api/matchweeks';
+import matchweeksAPI from '../api/matchweeksAPI';
 
 Vue.use(Vuex);
 

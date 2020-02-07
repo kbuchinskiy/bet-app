@@ -20,6 +20,7 @@ export function clean(req, res) {
 
 export async function get(req, res) {
   const { betsToCheck } = req.query;
+
   if (betsToCheck) {
     const placedBetsQueries = betsToCheck
       .map((matchId) => Bet.findOne({ matchId }));
@@ -28,5 +29,9 @@ export async function get(req, res) {
       .then((data) => {
         res.send(data.filter((bet) => bet));
       });
+  } else {
+    await Bet.find().then((data) => {
+      res.send(data);
+    });
   }
 }

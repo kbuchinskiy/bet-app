@@ -40,7 +40,7 @@
 
 <script>
 import axios from 'axios';
-import matchweeksAPI from '../api/matchweeks';
+import matchweeksAPI from '../api/matchweeksAPI';
 
 export default {
   name: 'matchweek-create',

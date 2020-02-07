@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import matchweeksAPI from '../api/matchweeks';
+import matchweeksAPI from '../api/matchweeksAPI';
 
 export default {
   props: {
