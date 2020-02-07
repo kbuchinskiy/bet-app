@@ -30,4 +30,13 @@ export default class matchweeksAPI {
       .then((res) => res.data)
       .catch((e) => console.log(e));
   }
+
+  static async getMatch(matchID) {
+    return axios
+      .get('http://localhost:7113/matchweek/read/', {
+        params: { id: matchID.toString().split('_')[0] },
+      })
+      .then((res) => res.data.matches.filter((match) => match.id === matchID)[0])
+      .catch((e) => console.log(e));
+  }
 }

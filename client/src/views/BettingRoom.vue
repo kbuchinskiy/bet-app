@@ -14,7 +14,7 @@
       <v-col>
         <v-container class="mt-4 d-flex flex-column align-center">
           <v-btn class="mb-4" @click="betsPlaced()" :disabled="!betCart.length">Place bet</v-btn>
-          <v-btn @click="cleanBetsCollections()">clean bets</v-btn>
+          <v-btn @click="cleanBetsCollections()" color="error">clean bets collection</v-btn>
         </v-container>
       </v-col>
     </v-row>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import MatchBet from '../components/MatchBet.vue';
 import matchweeksAPI from '../api/matchweeksAPI';
 import betAPI from '../api/betAPI';
@@ -41,23 +40,16 @@ export default {
   },
   methods: {
     outcomeChosen(betData) {
-      console.log(betData);
       if (Number.isInteger(betData.outcome)) {
         this.betCart.push(betData);
       } else {
         this.betCart = this.betCart.filter((bet) => bet.matchId !== betData.matchId);
       }
     },
-    betsPlaced() {
-      axios.post('http://localhost:7113/bet/add', this.betCart)
-        .then(() => {
-          this.getPlacedBets();
-          this.betCart = [];
-          this.betsPlaced = [];
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    async betsPlaced() {
+      await betAPI.add(this.betCart);
+      this.clear();
+      this.getPlacedBets();
     },
     async getMatchweek() {
       await matchweeksAPI.getMatchweekById('current').then((data) => {
@@ -67,15 +59,13 @@ export default {
     async getPlacedBets() {
       this.placedBets = await betAPI.getPlacedBets(this.matchweek.matches);
     },
-    cleanBetsCollections() {
-      axios
-        .get('http://localhost:7113/bet/clean', {
-          params: { betsToCheck: this.matchweek.matches.map((match) => match.id) },
-        })
-        .then(() => {
-          this.placedBets = [];
-        })
-        .catch((e) => console.log(e));
+    async cleanBetsCollections() {
+      await betAPI.clean();
+      this.clear();
+    },
+    clear() {
+      this.betCart = [];
+      this.placedBets = [];
     },
   },
   watch: {

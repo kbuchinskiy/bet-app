@@ -48,6 +48,11 @@ export default {
         this.outcomeBet = this.placedOutcome.outcome;
       }
     },
+    placedOutcome() {
+      if (!this.placedOutcome) {
+        this.outcomeBet = null;
+      }
+    },
   },
 };
 </script>

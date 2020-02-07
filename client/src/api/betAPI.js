@@ -17,4 +17,18 @@ export default class betAPI {
       .then((res) => res.data)
       .catch((e) => console.log(e));
   }
+
+  static async clean() {
+    return axios
+      .get('http://localhost:7113/bet/clean')
+      .then(() => {})
+      .catch((e) => console.log(e));
+  }
+
+  static async add(bets) {
+    return axios
+      .post('http://localhost:7113/bet/add', bets)
+      .then(() => { })
+      .catch((e) => console.log(e));
+  }
 }

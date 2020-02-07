@@ -22,6 +22,11 @@
             <v-list-item-title>Betting Room</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link @click="drawer = false" to="/betArchive">
+          <v-list-item-content>
+            <v-list-item-title>Bet Archive</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app>
