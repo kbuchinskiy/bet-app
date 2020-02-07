@@ -22,6 +22,12 @@
         <v-col cols="12" sm="1">
           <v-text-field v-model="match.odds[2]" label="2" required></v-text-field>
         </v-col>
+        <v-col cols="12 d-flex" sm="1">
+          <v-text-field
+            v-model="match.score[0]"></v-text-field>
+          <v-text-field
+            v-model="match.score[1]"></v-text-field>
+        </v-col>
       </v-row>
       <v-row justify="center">
         <v-col cols="12" sm="2">
@@ -49,7 +55,11 @@ export default {
   },
   methods: {
     submit() {
-      matchweeksAPI.createMatchweek(this.matchweek);
+      matchweeksAPI
+        .createMatchweek(this.matchweek)
+        .then(() => {
+          this.matchweek.id += 1;
+        });
     },
   },
   created() {
@@ -57,6 +67,7 @@ export default {
       this.matchweek.matches.push({
         teams: ['New Castle', 'Wolves'],
         odds: [1.33, 4.0, 3.7],
+        score: [0, 2],
       });
     }
 

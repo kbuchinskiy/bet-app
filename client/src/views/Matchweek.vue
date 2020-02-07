@@ -22,7 +22,7 @@
               {{ item.teams[1] }}
             </td>
             <td v-for="(odd, index) in item.odds" :key="index" class="text-center">{{ odd }}</td>
-            <td class="text-center">TBD</td>
+            <td class="text-center">{{ item.score[0] }} : {{ item.score[1] }}</td>
           </tr>
         </tbody>
       </template>
