@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Matchweek from '../models/matchweek';
+import { setOutcomeBet } from './bet';
 
 export function update(req, res) {
   const filter = { id: req.body.id };
@@ -11,6 +12,11 @@ export function update(req, res) {
     .then((updatedItem) => {
       res.send(updatedItem);
     });
+
+  const mathcesCompleted = req.body.matches
+    .filter((match) => match.score.length);
+
+  setOutcomeBet(mathcesCompleted);
 }
 
 function getCurrent(res) {

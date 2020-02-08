@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     outcomeChosen(betData) {
-      if (Number.isInteger(betData.outcome)) {
+      if (Number.isInteger(betData.outcomeBet)) {
         this.betCart.push(betData);
       } else {
         this.betCart = this.betCart.filter((bet) => bet.matchId !== betData.matchId);

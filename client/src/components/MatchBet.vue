@@ -36,7 +36,7 @@ export default {
   methods: {
     betChoice() {
       const betData = {
-        outcome: this.outcomeBet,
+        outcomeBet: this.outcomeBet,
         matchId: this.matchData.id,
       };
       this.$emit('outcomeChosen', betData);
