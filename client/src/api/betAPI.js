@@ -1,16 +1,17 @@
 import axios from 'axios';
+import SERVER_URL from './conf';
 
 export default class betAPI {
   static async getBets() {
     return axios
-      .get('http://localhost:7113/bet/get')
+      .get(`${SERVER_URL}/bet/get`)
       .then((res) => res.data)
       .catch((e) => console.log(e));
   }
 
   static async getPlacedBets(matches) {
     return axios
-      .get('http://localhost:7113/bet/get', {
+      .get(`${SERVER_URL}/bet/get`, {
         params: { betsToCheck: matches.map((match) => match.id) },
       })
 
@@ -20,14 +21,14 @@ export default class betAPI {
 
   static async clean() {
     return axios
-      .get('http://localhost:7113/bet/clean')
+      .get(`${SERVER_URL}/bet/clean`)
       .then(() => {})
       .catch((e) => console.log(e));
   }
 
   static async add(bets) {
     return axios
-      .post('http://localhost:7113/bet/add', bets)
+      .post(`${SERVER_URL}/bet/add`, bets)
       .then(() => { })
       .catch((e) => console.log(e));
   }

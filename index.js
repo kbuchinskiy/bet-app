@@ -34,4 +34,5 @@ process.on('uncaughtException', () => {
 process.on('SIGTERM', () => {
   server.close();
 });
-console.log(`http://localhost:${PORT}`);
+const SERVER_URL = 'http://localhost:3771';
+console.log(SERVER_URL);
