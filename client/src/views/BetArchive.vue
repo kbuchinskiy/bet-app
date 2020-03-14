@@ -4,7 +4,13 @@
       <v-list-item
       v-for="(bet, i) in bets"
       :key="i"
-      :class="{unsuccess: !bet.success}">
+      >
+        <v-icon small class="pr-2">
+          {{
+            bet.success === undefined ? 'mdi-progress-clock' :
+            bet.success === false  ? 'mdi-cancel' : 'mdi-checkbox-marked-circle'
+          }}
+        </v-icon>
         {{ `${bet.teams[0]} - ${bet.teams[1]}` }} |
         {{ bet.score[0] + ' : ' + bet.score[1] }} |
         {{ getBetOutcomeText(i) }}
@@ -33,9 +39,9 @@ export default {
     },
     async init() {
       const bets = await betAPI.getBets();
-      console.log(bets);
       const betMatchesPromises = bets.map((bet) => matchweeksAPI.getMatch(bet.matchId));
       const betMatches = await Promise.all(betMatchesPromises);
+
       this.bets = betMatches.map((match, i) => {
         const betItem = { ...match };
         betItem.outcomeBet = bets[i].outcomeBet;

@@ -21,9 +21,7 @@ export default class betAPI {
 
   static async clean() {
     return axios
-      .get(`${SERVER_URL}/bet/clean`)
-      .then(() => {})
-      .catch((e) => console.log(e));
+      .get(`${SERVER_URL}/bet/clean`);
   }
 
   static async add(bets) {

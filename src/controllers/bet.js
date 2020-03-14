@@ -5,13 +5,10 @@ function getOutcomeByScore(score) {
   return score[0] > score[1] ? 0 : score[0] < score[1] ? 2 : 1;
 }
 
-getOutcomeByScore([1, 2]);
-
 export function add(req, res) {
   Bet
     .collection
     .insertMany(...[req.body])
-    // .remove({})
     .then(() => res.end('added'))
     .catch((e) => console.log(e));
 }
@@ -30,7 +27,6 @@ export function setOutcomeBet(mathcesCompleted) {
     Bet.findOne({ matchId: match.id })
       .then((itemToUpdate) => {
         if (itemToUpdate) {
-          console.log(getOutcomeByScore(match.score), itemToUpdate.matchId);
           Bet
             .findOneAndUpdate(
               { matchId: itemToUpdate.matchId },

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="d-flex align-center">
+  <v-container class="d-flex align-center justify-space-between">
     <p class="mr-10 mb-0">
       {{ matchData.teams[0] }}
       <br />

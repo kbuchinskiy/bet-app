@@ -62,6 +62,7 @@ export default {
         .updateMatchweek(this.matchweek)
         .then((updatedItem) => {
           this.matchweek = updatedItem;
+          this.$toast.success('Matcweek updated');
         });
     },
     updateMatchweek(payload) {

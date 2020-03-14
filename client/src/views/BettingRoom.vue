@@ -60,8 +60,13 @@ export default {
       this.placedBets = await betAPI.getPlacedBets(this.matchweek.matches);
     },
     async cleanBetsCollections() {
-      await betAPI.clean();
-      this.clear();
+      try {
+        await betAPI.clean();
+        this.$toast.success('Collection cleaned');
+        this.clear();
+      } catch {
+        this.$toast.error('Opps, smth went wrong');
+      }
     },
     clear() {
       this.betCart = [];
