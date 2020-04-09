@@ -1,37 +1,85 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import matchweeksAPI from '../api/matchweeksAPI';
+import Axios from 'axios';
+import SERVER_URL from '../api/conf';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    lastMatchweek: {
-      matches: [],
-      id: 1,
-    },
-    matchweeksAmount: 1,
+    status: '',
+    token: localStorage.getItem('token') || '',
+    user: {},
   },
   mutations: {
-    SET_LAST_MATCHWEEK(state, payload) {
-      state.lastMatchweek = payload;
+    auth_request(state) {
+      state.status = 'loading';
     },
-    SET_MATCHWEEKS_AMOUNT(state, payload) {
-      state.matchweeksAmount = payload;
+    auth_success(state, token, user) {
+      state.status = 'success';
+      state.token = token;
+      state.user = user;
+    },
+    auth_error(state) {
+      state.status = 'error';
+    },
+    logout(state) {
+      state.status = '';
+      state.token = '';
     },
   },
   actions: {
-    async setLastMatchweek({ commit }, id) {
-      const lastMatchweek = await matchweeksAPI.getMatchweekById(id);
-      commit('SET_LAST_MATCHWEEK', lastMatchweek);
+    login({ commit }, userData) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request');
+        Axios
+          .post(`${SERVER_URL}/login`, userData)
+          .then((resp) => {
+            const { token } = resp.data;
+            const { user } = resp.data;
+            localStorage.setItem('token', token);
+            // Axios.defaults.headers.common.Authorization = token;
+            commit('auth_success', token, user);
+            resolve(resp);
+          })
+          .catch((err) => {
+            commit('auth_error');
+            localStorage.removeItem('token');
+            reject(err);
+          });
+      });
     },
-    async setMatchweeksAmount({ commit }) {
-      const matchdaysAmount = await matchweeksAPI.getTotalAmount();
-      commit('SET_MATCHWEEKS_AMOUNT', matchdaysAmount);
+    register({ commit }, userData) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request');
+        Axios
+          .post(`${SERVER_URL}/register`, userData)
+          .then((resp) => {
+            const { token } = resp.data;
+            const { user } = resp.data;
+            localStorage.setItem('token', token);
+            // Axios.defaults.headers.common.Authorization = token;
+            commit('auth_success', token, user);
+            resolve(resp);
+          })
+          .catch((err) => {
+            commit('auth_error', err);
+            localStorage.removeItem('token');
+            reject(err);
+          });
+      });
     },
-    initStore() {
-      this.dispatch('setLastMatchweek', 'current');
-      this.dispatch('setMatchweeksAmount');
+    logout({ commit }) {
+      return new Promise((resolve) => {
+        commit('logout');
+        localStorage.removeItem('token');
+        delete Axios.defaults.headers.common.Authorization;
+        resolve();
+      });
     },
+  },
+  getters: {
+    isLoggedIn: (state) => !!state.token,
+    authStatus: (state) => state.status,
   },
 });

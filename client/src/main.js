@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VuetifyToast from 'vuetify-toast-snackbar';
+import Axios from 'axios';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import router from './router';
@@ -7,7 +8,7 @@ import store from './store';
 
 
 Vue.config.productionTip = false;
-
+Vue.prototype.$http = Axios;
 
 new Vue({
   vuetify,
@@ -15,7 +16,7 @@ new Vue({
   store,
   render: (h) => h(App),
   beforeCreate() {
-    this.$store.dispatch('initStore');
+
   },
 }).$mount('#app');
 

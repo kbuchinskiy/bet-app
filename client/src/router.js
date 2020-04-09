@@ -6,16 +6,19 @@ import MatchweekUpdate from './views/MatchweekUpdate.vue';
 import BettingRoom from './views/BettingRoom.vue';
 import NotFound from './views/NotFound.vue';
 import BetArchive from './views/BetArchive.vue';
+import Register from './views/Register.vue';
+import login from './views/Login.vue';
+import store from './store';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      redirect: 'matchweek',
+      redirect: '/matchweek',
       name: 'home',
     },
     {
@@ -27,11 +30,17 @@ export default new Router({
       path: '/matchweekUpdate',
       name: 'matchweek-update-current',
       component: MatchweekUpdate,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/matchweekUpdate/:id',
       name: 'matchweek-update-id',
       component: MatchweekUpdate,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/matchweek',
@@ -47,11 +56,33 @@ export default new Router({
       path: '/bettingRoom',
       name: 'beeting-room',
       component: BettingRoom,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/betArchive',
       name: 'bet-archive',
       component: BetArchive,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+      meta: {
+        guest: true,
+      },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+      meta: {
+        guest: true,
+      },
     },
     {
       path: '*',
@@ -60,3 +91,27 @@ export default new Router({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (store.getters.isLoggedIn) {
+      next('bettingRoom');
+    } else {
+      next();
+    }
+  } else {
+    console.log(1);
+    next();
+  }
+});
+
+export default router;

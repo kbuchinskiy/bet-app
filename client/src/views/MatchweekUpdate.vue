@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import matchweeksAPI from '../api/matchweeksAPI';
 import MatchweekPagination from '../components/MatchweekPagination.vue';
 
@@ -78,7 +77,7 @@ export default {
       });
     }
 
-    axios
+    this.$http
       .get('http://localhost:7113/teams')
       .then((res) => {
         this.teams = res.data;

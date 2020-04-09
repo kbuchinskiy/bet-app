@@ -32,6 +32,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>bet-app</v-toolbar-title>
+      <v-btn v-if="isLoggedIn" @click="logout" class="ml-auto">logout</v-btn>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -46,6 +47,26 @@ export default {
     return {
       drawer: false,
     };
+  },
+  computed: {
+    isLoggedIn() { return this.$store.getters.isLoggedIn; },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login');
+        });
+    },
+  },
+  created() {
+    // this.$http.interceptors.response.use(undefined, (err) => new Promise(() => {
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+    //     this.$store.dispatch('logout');
+    //   }
+    //   throw err;
+    // }));
   },
 };
 </script>

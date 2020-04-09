@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import matchweeksAPI from '../api/matchweeksAPI';
 
 export default {
@@ -71,7 +70,7 @@ export default {
       });
     }
 
-    axios
+    this.$http
       .get('http://localhost:7113/teams')
       .then((res) => {
         this.teams = res.data;

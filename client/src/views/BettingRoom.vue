@@ -18,7 +18,6 @@
         </v-container>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
@@ -43,7 +42,9 @@ export default {
       if (Number.isInteger(betData.outcomeBet)) {
         this.betCart.push(betData);
       } else {
-        this.betCart = this.betCart.filter((bet) => bet.matchId !== betData.matchId);
+        this.betCart = this.betCart.filter(
+          (bet) => bet.matchId !== betData.matchId,
+        );
       }
     },
     async betsPlaced() {
@@ -73,9 +74,7 @@ export default {
       this.placedBets = [];
     },
   },
-  watch: {
-
-  },
+  watch: {},
   async created() {
     await this.getMatchweek();
     await this.getPlacedBets();

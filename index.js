@@ -7,6 +7,8 @@ import matchweek from './src/rotures/matchweek';
 import teams from './src/rotures/teams';
 import bet from './src/rotures/bet';
 import dbConnect from './src/dbStartup';
+import register from './src/controllers/register';
+import login from './src/controllers/login';
 
 
 const PORT = 7113;
@@ -18,9 +20,14 @@ app.use(express.urlencoded({
 }));
 app.use(express.static(`${__dirname}/client/dist/`));
 app.use(cors());
+
 app.use('/matchweek', matchweek);
 app.use('/teams', teams);
 app.use('/bet', bet);
+
+app.post('/register', register);
+app.post('/login', login);
+
 app.get('/', (req, res) => {
   fs.createReadStream(`${__dirname}/client/dist/index.html`).pipe(res);
 });
@@ -34,5 +41,5 @@ process.on('uncaughtException', () => {
 process.on('SIGTERM', () => {
   server.close();
 });
-const SERVER_URL = 'http://localhost:3771';
+const SERVER_URL = `http://localhost:${PORT}`;
 console.log(SERVER_URL);
