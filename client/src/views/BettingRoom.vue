@@ -23,8 +23,8 @@
 
 <script>
 import MatchBet from '../components/MatchBet.vue';
-import matchweeksAPI from '../api/matchweeksAPI';
-import betAPI from '../api/betAPI';
+import matchService from '../api/matchService';
+import betService from '../api/betService';
 
 export default {
   components: {
@@ -48,21 +48,21 @@ export default {
       }
     },
     async betsPlaced() {
-      await betAPI.add(this.betCart);
+      await betService.add(this.betCart);
       this.clear();
       this.getPlacedBets();
     },
     async getMatchweek() {
-      await matchweeksAPI.getMatchweekById('current').then((data) => {
+      await matchService.getMatchweekById('current').then((data) => {
         this.matchweek = data;
       });
     },
     async getPlacedBets() {
-      this.placedBets = await betAPI.getPlacedBets(this.matchweek.matches);
+      this.placedBets = await betService.getPlacedBets(this.matchweek.matches);
     },
     async cleanBetsCollections() {
       try {
-        await betAPI.clean();
+        await betService.clean();
         this.$toast.success('Collection cleaned');
         this.clear();
       } catch {

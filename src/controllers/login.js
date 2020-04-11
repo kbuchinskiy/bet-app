@@ -10,15 +10,17 @@ export default async function (req, res) {
     .then((data) => {
       if (data) {
         const token = jwt.sign({ id: user.id }, 'supersecret', {
-          expiresIn: 86400, // expires in 24 hours
+          expiresIn: 3000, // expires in 24 hours
         });
 
         const passwordIsValid = bcrypt.compareSync(req.body.password, data.password);
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null })
 
         res.status(200).send({ auth: true, token, user });
       } else {
         res.status(404).send('No user found.');
       }
+
+      return null;
     });
 }

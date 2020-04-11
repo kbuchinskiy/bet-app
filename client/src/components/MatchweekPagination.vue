@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import matchweeksAPI from '../api/matchweeksAPI';
+import matchService from '../api/matchService';
 
 export default {
   props: {
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async updateMatchweek() {
-      this.matchweek = await matchweeksAPI
+      this.matchweek = await matchService
         .getMatchweekById(this.$route.params.id || 'current');
       this.$emit('matchweekUpdated', this.matchweek);
     },
@@ -44,7 +44,7 @@ export default {
     },
     async init() {
       this.updateMatchweek();
-      this.matchweeksAmount = await matchweeksAPI.getTotalAmount();
+      this.matchweeksAmount = await matchService.getTotalAmount();
     },
 
   },

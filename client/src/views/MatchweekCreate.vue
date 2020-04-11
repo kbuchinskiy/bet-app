@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import matchweeksAPI from '../api/matchweeksAPI';
+import matchService from '../api/matchService';
 
 export default {
   name: 'matchweek-create',
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     submit() {
-      matchweeksAPI
+      matchService
         .createMatchweek(this.matchweek)
         .then(() => {
           this.matchweek.id += 1;
@@ -76,10 +76,9 @@ export default {
         this.teams = res.data;
       });
 
-    matchweeksAPI
+    matchService
       .getMatchweekById('current')
       .then((matchweek) => {
-        console.log(matchweek);
         this.matchweek.id = matchweek ? matchweek.id + 1 : 1;
       });
   },

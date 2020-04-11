@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col sm="6">
+      <v-col md="6" sm="8">
         <v-form>
           <v-text-field v-model="name" label="name"></v-text-field>
           <v-text-field v-model="password" label="password" type="password"></v-text-field>
@@ -35,12 +35,9 @@ export default {
           } else {
             this.$router.push('bettingRoom');
           }
-        })
-        .catch((err) => console.log(err));
+        });
+      // .catch((err) => console.log(err));
     },
-  },
-  mounted() {
-    console.log(this.$route);
   },
 };
 </script>

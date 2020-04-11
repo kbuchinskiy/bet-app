@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <v-list>
-      <v-list-item
-      v-for="(bet, i) in bets"
-      :key="i"
-      >
+      <v-list-item v-for="(bet, i) in bets" :key="i">
         <v-icon small class="pr-2">
           {{
-            bet.success === undefined ? 'mdi-progress-clock' :
-            bet.success === false  ? 'mdi-cancel' : 'mdi-checkbox-marked-circle'
+            bet.success === undefined
+              ? "mdi-progress-clock"
+              : bet.success === false
+              ? "mdi-cancel"
+              : "mdi-checkbox-marked-circle"
           }}
         </v-icon>
         {{ `${bet.teams[0]} - ${bet.teams[1]}` }} |
-        {{ bet.score[0] + ' : ' + bet.score[1] }} |
+        {{ bet.score[0] + " : " + bet.score[1] }} |
         {{ getBetOutcomeText(i) }}
       </v-list-item>
     </v-list>
@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import betAPI from '../api/betAPI';
-import matchweeksAPI from '../api/matchweeksAPI';
+import betService from '../api/betService';
+import matchService from '../api/matchService';
 
 export default {
   data() {
@@ -35,11 +35,13 @@ export default {
       if (bet.outcomeBet === 1) {
         return 'draw';
       }
-      return `win ${bet.teams[bet.outcomeBet ? bet.outcomeBet - 1 : bet.outcomeBet]}`;
+      return `win ${
+        bet.teams[bet.outcomeBet ? bet.outcomeBet - 1 : bet.outcomeBet]
+      }`;
     },
     async init() {
-      const bets = await betAPI.getBets();
-      const betMatchesPromises = bets.map((bet) => matchweeksAPI.getMatch(bet.matchId));
+      const bets = await betService.getBets();
+      const betMatchesPromises = bets.map((bet) => matchService.getMatch(bet.matchId));
       const betMatches = await Promise.all(betMatchesPromises);
 
       this.bets = betMatches.map((match, i) => {
@@ -55,9 +57,3 @@ export default {
   },
 };
 </script>
-
-<style>
-  .unsuccess {
-    text-decoration: line-through;
-  }
-</style>

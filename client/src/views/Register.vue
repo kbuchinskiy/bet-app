@@ -6,7 +6,7 @@
           <v-form>
             <v-text-field v-model="name" label="name"></v-text-field>
             <v-text-field v-model="password" label="password" type="password"></v-text-field>
-            <v-btn @click="register">Register</v-btn>
+            <v-btn class="mx-auto" @click="register">Register</v-btn>
           </v-form>
         </v-col>
       </v-row>

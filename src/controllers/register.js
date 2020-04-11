@@ -10,7 +10,7 @@ export default function register(req, res) {
     .save()
     .then(() => {
       const token = jwt.sign({ id: user.id }, 'supersecret', {
-        expiresIn: 86400, // expires in 24 hours
+        expiresIn: 3000, // expires in 24 hours
       });
       res.status(200).send({ auth: true, token, user });
     })

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import matchweeksAPI from '../api/matchweeksAPI';
+import matchService from '../api/matchService';
 import MatchweekPagination from '../components/MatchweekPagination.vue';
 
 export default {
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     submit() {
-      matchweeksAPI
+      matchService
         .updateMatchweek(this.matchweek)
         .then((updatedItem) => {
           this.matchweek = updatedItem;
