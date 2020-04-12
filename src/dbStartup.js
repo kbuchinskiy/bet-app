@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
+import config from './config';
 
 export default function connectDb() {
   mongoose.Promise = global.Promise;
 
-  const password = '5U6jPfkQXe4W2xVB';
-  mongoose.connect(`mongodb+srv://test:${password}@cluster0-97zcj.mongodb.net/test?retryWrites=true&w=majority`, {
+  mongoose.connect(`mongodb+srv://test:${config.db.password}@cluster0-97zcj.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   }).catch((e) => {
     console.log(e);
   }).then(() => {
