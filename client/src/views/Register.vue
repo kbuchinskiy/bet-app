@@ -5,7 +5,19 @@
         <v-col sm="6">
           <v-form>
             <v-text-field v-model="name" label="name"></v-text-field>
-            <v-text-field v-model="password" label="password" type="password"></v-text-field>
+
+            <v-text-field
+              v-model="email"
+              type="mail"
+              label="email"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="password"
+              type="password"
+              label="password"
+            ></v-text-field>
+
             <v-btn class="mx-auto" @click="register">Register</v-btn>
           </v-form>
         </v-col>
@@ -15,20 +27,31 @@
 </template>
 
 <script>
+import authService from '../api/authService';
+
 export default {
   data() {
     return {
       name: '',
       password: '',
+      email: '',
     };
   },
   methods: {
-    register() {
-      const data = {
-        name: this.name,
-        password: this.password,
-      };
-      this.$store.dispatch('register', data);
+    async register() {
+      try {
+        const response = await authService.register({
+          // name: this.name,
+          password: this.password,
+          email: this.email,
+        });
+        console.log(response);
+      } catch (error) {
+        this.$toast.error(error.response.data.error, {
+          timeout: 3000,
+        });
+      }
+      // this.$store.dispatch('register', data);
     },
   },
 };

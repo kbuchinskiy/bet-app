@@ -3,5 +3,8 @@ export default {
   db: {
     password: '5U6jPfkQXe4W2xVB',
   },
+  auth: {
+    jwtSercet: process.env.JWT_SECRET || 'secret',
+  },
 
 };

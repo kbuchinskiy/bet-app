@@ -6,9 +6,8 @@ import {
   create, read, getAmount, update,
 } from './controllers/matchweek';
 
-import { register } from './controllers/authentication';
+import { register, login } from './controllers/authentication';
 import authenticationPolicy from './policies/authenticationPolicy';
-import login from './controllers/login';
 
 export default (app) => {
   app.post('/register', authenticationPolicy, register);

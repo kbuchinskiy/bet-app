@@ -32,11 +32,12 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>bet-app</v-toolbar-title>
-      <v-container class="d-flex justify-end">
-        <v-btn v-if="isLoggedIn" @click="logout" class="ml-auto">logout</v-btn>
-        <v-btn v-if="!isLoggedIn" to="/register" class="mx-2">Register</v-btn>
-        <v-btn v-if="!isLoggedIn" to="/login">Login</v-btn>
-      </v-container>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn v-if="isLoggedIn" @click="logout" class="ml-auto">Logout</v-btn>
+        <v-btn v-if="!isLoggedIn" to="/login">Sign In</v-btn>
+        <v-btn v-if="!isLoggedIn" to="/register" class="mx-2">Sign Up</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
     <v-content>
       <router-view></router-view>

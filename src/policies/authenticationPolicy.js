@@ -29,7 +29,7 @@ export default function register(req, res, next) {
         break;
       default:
         res.status(400).send({
-          error: 'Invalid registration information',
+          error,
         });
     }
   } else {

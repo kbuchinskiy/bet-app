@@ -1,42 +1,57 @@
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col md="6" sm="8">
-        <v-form>
-          <v-text-field v-model="name" label="name"></v-text-field>
-          <v-text-field v-model="password" label="password" type="password"></v-text-field>
-          <v-btn @click="login">Login</v-btn>
-        </v-form>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <v-container>
+      <v-row justify="center">
+        <v-col sm="6">
+          <v-form>
+            <v-text-field v-model="name" label="name"></v-text-field>
+
+            <v-text-field
+              v-model="email"
+              type="mail"
+              label="email"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="password"
+              type="password"
+              label="password"
+            ></v-text-field>
+
+            <v-btn class="mx-auto" @click="login">Login</v-btn>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import authService from '../api/authService';
 
 export default {
   data() {
     return {
       name: '',
       password: '',
+      email: '',
     };
   },
   methods: {
-    login() {
-      const loginData = {
-        name: this.name,
-        password: this.password,
-      };
-
-      this.$store.dispatch('login', loginData)
-        .then(() => {
-          if (this.$route.query.nextUrl != null) {
-            this.$router.push(this.$route.query.nextUrl);
-          } else {
-            this.$router.push('bettingRoom');
-          }
+    async login() {
+      try {
+        const response = await authService.login({
+          // name: this.name,
+          password: this.password,
+          email: this.email,
         });
-      // .catch((err) => console.log(err));
+        console.log(response);
+      } catch (error) {
+        this.$toast.error(error.response.data.error, {
+          timeout: 3000,
+        });
+      }
+      // this.$store.dispatch('register', data);
     },
   },
 };

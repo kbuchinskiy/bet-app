@@ -1,6 +1,14 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
+import config from '../config';
+
+function jwtSignUser(user) {
+  const ONE_WEEK = 60 * 60 * 24 * 7;
+  return jwt.sign({ user }, config.auth.jwtSercet, {
+    expiresIn: ONE_WEEK,
+  });
+}
 
 export async function register(req, res) {
   const user = req.body;
@@ -8,9 +16,7 @@ export async function register(req, res) {
 
   try {
     await new User(user).save();
-    const token = jwt.sign({ id: user.id }, 'supersecret', {
-      expiresIn: 3000, // expires in 24 hours
-    });
+    const token = jwtSignUser(user);
     res.status(200).send({ auth: true, token, user });
   } catch (err) {
     console.log(err);
@@ -18,6 +24,37 @@ export async function register(req, res) {
   }
 }
 
-export function login() {
+export async function login(req, res) {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
+
+    if (!user) {
+      return res.status(403).send({
+        error: 'Login information was incorect',
+      });
+    }
+
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(403).send({
+        error: 'Login information was incorect',
+      });
+    }
+
+    // const token = jwt.sign({ id: user.id }, 'supersecret', {
+    //   expiresIn: 3000, // expires in 24 hours
+    // });
+
+    const token = jwtSignUser(user);
+
+    return res.status(200).send({ user, token });
+  } catch (err) {
+    console.log(err);
+    return res.status(403).send({
+      error: 'An error has occured trying to log in',
+    });
+  }
 }
