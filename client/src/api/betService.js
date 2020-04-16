@@ -2,7 +2,7 @@ import api from './api';
 
 export default {
   async getBets() {
-    const { data } = await api().get('/bet/get');
+    const { data } = await api().get('/bet');
     return data;
   },
 
@@ -20,7 +20,7 @@ export default {
   },
 
   async add(bets) {
-    const { data } = await api().post('/bet/add', bets);
+    const { data } = await api().post('/bet', bets);
     return data;
   },
 };
