@@ -1,20 +1,16 @@
 import Vue from 'vue';
 import VuetifyToast from 'vuetify-toast-snackbar';
 import Axios from 'axios';
+import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import router from './router';
-import store from './store';
-
+import store from './store/store';
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
-const token = localStorage.getItem('token');
-if (token) {
-  Vue.prototype.$http.defaults.headers.common.Authorization = token;
-}
-
+sync(store, router);
 
 new Vue({
   vuetify,

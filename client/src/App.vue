@@ -12,7 +12,7 @@
             <v-list-item-title>Update Matchweek</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link @click="drawer = false" to="/">
+        <v-list-item link @click="drawer = false" to="/matchweek">
           <v-list-item-content>
             <v-list-item-title>Matchweek</v-list-item-title>
           </v-list-item-content>
@@ -55,14 +55,14 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
+      return this.$store.state.isUserLoggedIn;
     },
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout').then(() => {
-        this.$router.push('/login');
-      });
+      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('setUser', null);
+      this.$router.push('/');
     },
   },
   created() {

@@ -2,16 +2,13 @@
 import Matchweek from '../models/matchweek';
 import { setOutcomeBet } from './bet';
 
-export function update(req, res) {
+export async function put(req, res) {
   const filter = { id: req.body.id };
   const dataToUpdate = { matches: req.body.matches };
-  Matchweek
-    .findOneAndUpdate(filter, dataToUpdate, {
-      new: true,
-    })
-    .then((updatedItem) => {
-      res.send(updatedItem);
-    });
+  const matchweek = await Matchweek
+    .findOneAndUpdate(filter, dataToUpdate, { new: true });
+
+  res.send(matchweek);
 
   const mathcesCompleted = req.body.matches
     .filter((match) => match.score.length);
@@ -19,20 +16,16 @@ export function update(req, res) {
   setOutcomeBet(mathcesCompleted);
 }
 
-function getCurrent(res) {
-  Matchweek
+async function getCurrent() {
+  const matchweeks = await Matchweek
     .find()
     .sort({ id: -1 })
-    .limit(1)
-    .then((matchweeks) => {
-      res.send(matchweeks[0]);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    .limit(1);
+
+  return matchweeks[0];
 }
 
-export function create(req, res) {
+export async function post(req, res) {
   const matchweekData = req.body;
 
   matchweekData.matches = matchweekData.matches.map((match, i) => {
@@ -40,34 +33,31 @@ export function create(req, res) {
     return match;
   });
 
-  new Matchweek(matchweekData)
-    .save()
-    .then(() => res.end('added'))
-    .catch((e) => console.log(e));
+  try {
+    const matchweek = await new Matchweek(matchweekData).save();
+    res.send(matchweek);
+  } catch (err) {
+    res.status(500).send({
+      error: 'an error has occured trying to add matchweek',
+    });
+  }
 }
 
-export function getAmount(req, res) {
-  Matchweek.countDocuments()
-    .then((amount) => {
-      res.send(`${amount || 0}`);
-    })
-    .catch((e) => console.log(e));
+export async function getAmount(req, res) {
+  const amount = await Matchweek.countDocuments();
+  res.send(`${amount || 0}`);
 }
 
-export function read(req, res) {
-  if (req.query.id === 'current') {
-    getCurrent(res);
-  } else {
-    Matchweek
-      .findOne({ id: req.query.id })
-      .then((matchweek) => {
-        if (!matchweek) {
-          res.status(404);
-        }
-        res.send(matchweek);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+export async function getMatchweekById(req, res) {
+  try {
+    const { id } = req.params;
+    const matchweek = (id === 'current')
+      ? await getCurrent()
+      : await Matchweek.findOne({ id });
+    res.send(matchweek);
+  } catch (err) {
+    res.status(500).send({
+      error: 'an error has occured trying to get matchweek',
+    });
   }
 }

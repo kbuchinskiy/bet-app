@@ -5,12 +5,15 @@ function getOutcomeByScore(score) {
   return score[0] > score[1] ? 0 : score[0] < score[1] ? 2 : 1;
 }
 
-export function add(req, res) {
-  Bet
-    .collection
-    .insertMany(...[req.body])
-    .then(() => res.end('added'))
-    .catch((e) => console.log(e));
+export async function add(req, res) {
+  try {
+    const bets = await Bet.collection.insertMany(...[req.body]);
+    res.send(bets);
+  } catch (err) {
+    res.status(403).send({
+      error: 'An error has occured trying to log in',
+    });
+  }
 }
 
 
@@ -32,10 +35,7 @@ export function setOutcomeBet(mathcesCompleted) {
               { matchId: itemToUpdate.matchId },
               { success: getOutcomeByScore(match.score) === itemToUpdate.outcomeBet },
               { new: true },
-            )
-            .then((data) => {
-              console.log(data);
-            });
+            );
         }
       });
   });

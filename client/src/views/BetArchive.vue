@@ -41,6 +41,7 @@ export default {
     },
     async init() {
       const bets = await betService.getBets();
+
       const betMatchesPromises = bets.map((bet) => matchService.getMatch(bet.matchId));
       const betMatches = await Promise.all(betMatchesPromises);
 

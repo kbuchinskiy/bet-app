@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(`${__dirname}/client/dist/`));
 app.use(cors());
 
+
 routes(app);
 
 

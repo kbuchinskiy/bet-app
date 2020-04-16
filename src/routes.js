@@ -3,7 +3,7 @@ import {
   add, get, clean,
 } from './controllers/bet';
 import {
-  create, read, getAmount, update,
+  post, getMatchweekById, getAmount, put,
 } from './controllers/matchweek';
 
 import { register, login } from './controllers/authentication';
@@ -13,9 +13,9 @@ export default (app) => {
   app.post('/register', authenticationPolicy, register);
   app.post('/login', login);
 
-  app.post('/matchweek/create', create);
-  app.post('/matchweek/update', update);
-  app.get('/matchweek/read', read);
+  app.post('/matchweek', post);
+  app.put('/matchweek/:id', put);
+  app.get('/matchweek/:id', getMatchweekById);
   app.get('/matchweek/amount', getAmount);
 
 
@@ -23,7 +23,7 @@ export default (app) => {
   app.post('/bet/add', add);
   app.get('/bet/get', get);
 
-  app.get('/', (req, res) => {
+  app.get('/teams', (req, res) => {
     res.json(['Liverpool',
       'Leicester City',
       'Chelsea',

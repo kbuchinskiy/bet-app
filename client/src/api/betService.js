@@ -2,19 +2,16 @@ import api from './api';
 
 export default {
   async getBets() {
-    return api()
-      .get('/bet/get')
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    const { data } = await api().get('/bet/get');
+    return data;
   },
 
   async getPlacedBets(matches) {
-    return api()
+    const { data } = await api()
       .get('/bet/get', {
         params: { betsToCheck: matches.map((match) => match.id) },
-      })
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+      });
+    return data;
   },
 
   async clean() {
@@ -23,9 +20,7 @@ export default {
   },
 
   async add(bets) {
-    return api()
-      .post('/bet/add', bets)
-      .then(() => { })
-      .catch((e) => console.log(e));
+    const { data } = await api().post('/bet/add', bets);
+    return data;
   },
 };

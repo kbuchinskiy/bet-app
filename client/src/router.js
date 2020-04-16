@@ -8,7 +8,7 @@ import NotFound from './views/NotFound.vue';
 import BetArchive from './views/BetArchive.vue';
 import Register from './views/Register.vue';
 import login from './views/Login.vue';
-import store from './store';
+import store from './store/store';
 
 Vue.use(Router);
 
@@ -94,7 +94,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
+    if (store.state.isUserLoggedIn) {
       next();
     } else {
       next({
@@ -103,7 +103,7 @@ router.beforeEach((to, from, next) => {
       });
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (store.getters.isLoggedIn) {
+    if (store.state.isUserLoggedIn) {
       next('bettingRoom');
     } else {
       next();

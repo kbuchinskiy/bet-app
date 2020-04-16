@@ -40,18 +40,21 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await authService.login({
+        const { data } = await authService.login({
           // name: this.name,
           password: this.password,
           email: this.email,
         });
-        console.log(response);
+
+        this.$store.dispatch('setToken', data.token);
+        this.$store.dispatch('setUser', data.user);
+        const { nextUrl } = this.$store.state.route.query;
+        this.$router.push(nextUrl || '/bettingRoom');
       } catch (error) {
         this.$toast.error(error.response.data.error, {
           timeout: 3000,
         });
       }
-      // this.$store.dispatch('register', data);
     },
   },
 };

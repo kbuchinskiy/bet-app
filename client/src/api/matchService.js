@@ -2,41 +2,27 @@ import api from './api';
 
 export default {
   async getTotalAmount() {
-    return api()
-      .get('/matchweek/amount')
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    const { data } = await api().get('/matchweek/current');
+    return data.id;
   },
 
-  async getMatchweekById(ID) {
-    return api()
-      .get('/matchweek/read/', {
-        params: { id: ID },
-      })
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+  async getMatchweekById(id) {
+    const { data } = await api().get(`/matchweek/${id}`);
+    return data;
   },
 
   async createMatchweek(matchweek) {
-    return api()
-      .post('/matchweek/create', matchweek)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    const { data } = await api().post('/matchweek', matchweek);
+    return data;
   },
 
   async updateMatchweek(matchweek) {
-    return api()
-      .post('/matchweek/update', matchweek)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    const { data } = await api().put(`/matchweek/${matchweek.id}`, matchweek);
+    return data;
   },
 
-  async getMatch(matchID) {
-    return api()
-      .get('/matchweek/read/', {
-        params: { id: matchID.toString().split('_')[0] },
-      })
-      .then((res) => res.data.matches.filter((match) => match.id === matchID)[0])
-      .catch((e) => console.log(e));
+  async getMatch(matchId) {
+    const { data } = await api().get(`/matchweek/${matchId.toString().split('_')[0]}`);
+    return data.matches.filter((match) => match.id === matchId)[0];
   },
 };

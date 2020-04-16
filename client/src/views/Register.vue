@@ -40,12 +40,13 @@ export default {
   methods: {
     async register() {
       try {
-        const response = await authService.register({
+        const { data } = await authService.register({
           // name: this.name,
           password: this.password,
           email: this.email,
         });
-        console.log(response);
+        this.$store.dispatch('setToken', data.token);
+        this.$store.dispatch('setUser', data.user);
       } catch (error) {
         this.$toast.error(error.response.data.error, {
           timeout: 3000,
