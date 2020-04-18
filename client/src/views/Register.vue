@@ -41,7 +41,6 @@ export default {
     async register() {
       try {
         const { data } = await authService.register({
-          // name: this.name,
           password: this.password,
           email: this.email,
         });

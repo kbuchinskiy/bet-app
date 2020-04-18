@@ -29,26 +29,25 @@ export function setOutcomeBet(matchesFinished) {
   matchesFinished.forEach(async (match) => {
     const betToUpdate = await Bet.findOne({ matchId: match.id });
     if (betToUpdate) {
-      const updatedBet = await Bet.findOneAndUpdate(
+      await Bet.findOneAndUpdate(
         { matchId: betToUpdate.matchId },
         { success: getOutcomeByScore(match.score) === betToUpdate.outcomeBet },
         { new: true },
       );
-      console.log(updatedBet);
     }
   });
 }
 
 export async function get(req, res) {
-  const { betsToCheck } = req.query;
+  const { betsToCheck, userId } = req.query;
 
   if (betsToCheck) {
-    const placedBetsQueries = betsToCheck.map((matchId) => Bet.findOne({ matchId }));
+    const placedBetsQueries = betsToCheck.map((matchId) => Bet.findOne({ userId, matchId }));
     const placedBets = await Promise.all(placedBetsQueries);
-
+    console.log(placedBets.filter((bet) => bet).map((bet) => bet.userId));
     res.send(placedBets.filter((bet) => bet));
   } else {
-    const bets = await Bet.find();
+    const bets = await Bet.find({ userId });
     res.send(bets);
   }
 }

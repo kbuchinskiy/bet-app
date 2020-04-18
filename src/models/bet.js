@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const betSchema = new mongoose.Schema({
-  id: Number,
+  userId: String,
   matchId: String,
   outcomeBet: Number,
   success: Boolean,

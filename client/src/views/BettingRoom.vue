@@ -48,7 +48,11 @@ export default {
       }
     },
     async betsPlaced() {
-      await betService.add(this.betCart);
+      await betService.add(this.betCart.map((bet) => {
+        // eslint-disable-next-line no-param-reassign
+        bet.userId = this.$store.state.user._id;
+        return bet;
+      }));
       this.clear();
       this.getPlacedBets();
     },
@@ -56,7 +60,8 @@ export default {
       this.matchweek = await matchService.getMatchweekById('current');
     },
     async getPlacedBets() {
-      this.placedBets = await betService.getPlacedBets(this.matchweek.matches);
+      this.placedBets = await betService
+        .getPlacedBets(this.$store.state.user._id, this.matchweek.matches);
     },
     async cleanBetsCollections() {
       try {
