@@ -53,15 +53,12 @@ export default {
     };
   },
   methods: {
-    submit() {
-      matchService
-        .createMatchweek(this.matchweek)
-        .then(() => {
-          this.matchweek.id += 1;
-        });
+    async submit() {
+      await matchService.createMatchweek(this.matchweek);
+      this.matchweek.id += 1;
     },
   },
-  created() {
+  async created() {
     for (let i = 0; i < 10; i++) {
       this.matchweek.matches.push({
         teams: ['New Castle', 'Wolves'],
@@ -70,17 +67,11 @@ export default {
       });
     }
 
-    this.$http
-      .get('http://localhost:7113/teams')
-      .then((res) => {
-        this.teams = res.data;
-      });
+    const { data } = await this.$http.get('http://localhost:7113/teams');
+    this.teams = data;
 
-    matchService
-      .getMatchweekById('current')
-      .then((matchweek) => {
-        this.matchweek.id = matchweek ? matchweek.id + 1 : 1;
-      });
+    const matchweek = await matchService.getMatchweekById('current');
+    this.matchweek.id = matchweek ? matchweek.id + 1 : 1;
   },
 };
 </script>

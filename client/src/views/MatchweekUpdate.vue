@@ -56,19 +56,15 @@ export default {
     };
   },
   methods: {
-    submit() {
-      matchService
-        .updateMatchweek(this.matchweek)
-        .then((updatedItem) => {
-          this.matchweek = updatedItem;
-          this.$toast.success('Matcweek updated');
-        });
+    async submit() {
+      this.matchweek = await matchService.updateMatchweek(this.matchweek);
+      this.$toast.success('Matcweek updated');
     },
     updateMatchweek(payload) {
       this.matchweek = payload;
     },
   },
-  created() {
+  async created() {
     for (let i = 0; i < 10; i++) {
       this.matchweek.matches.push({
         teams: ['New Castle', 'Wolves'],
@@ -77,11 +73,8 @@ export default {
       });
     }
 
-    this.$http
-      .get('http://localhost:7113/teams')
-      .then((res) => {
-        this.teams = res.data;
-      });
+    const { data } = await this.$http.get('http://localhost:7113/teams');
+    this.teams = data;
   },
 };
 </script>

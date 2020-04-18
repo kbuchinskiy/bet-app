@@ -21,7 +21,7 @@ export default (app) => {
 
   app.get('/bet/clean', clean);
   app.post('/bet', add);
-  app.get('/bet', get);
+  app.get('/bets', get);
 
   app.get('/teams', (req, res) => {
     res.json(['Liverpool',

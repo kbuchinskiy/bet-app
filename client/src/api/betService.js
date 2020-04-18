@@ -2,21 +2,20 @@ import api from './api';
 
 export default {
   async getBets() {
-    const { data } = await api().get('/bet');
+    const { data } = await api().get('/bets');
     return data;
   },
 
   async getPlacedBets(matches) {
     const { data } = await api()
-      .get('/bet/get', {
+      .get('/bets', {
         params: { betsToCheck: matches.map((match) => match.id) },
       });
     return data;
   },
 
   async clean() {
-    return api()
-      .get('/bet/clean');
+    return api().get('/bet/clean');
   },
 
   async add(bets) {

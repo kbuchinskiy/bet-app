@@ -53,9 +53,7 @@ export default {
       this.getPlacedBets();
     },
     async getMatchweek() {
-      await matchService.getMatchweekById('current').then((data) => {
-        this.matchweek = data;
-      });
+      this.matchweek = await matchService.getMatchweekById('current');
     },
     async getPlacedBets() {
       this.placedBets = await betService.getPlacedBets(this.matchweek.matches);

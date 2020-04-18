@@ -25,19 +25,17 @@ export function clean(req, res) {
     .catch((e) => console.log(e));
 }
 
-export function setOutcomeBet(mathcesCompleted) {
-  mathcesCompleted.forEach((match) => {
-    Bet.findOne({ matchId: match.id })
-      .then((itemToUpdate) => {
-        if (itemToUpdate) {
-          Bet
-            .findOneAndUpdate(
-              { matchId: itemToUpdate.matchId },
-              { success: getOutcomeByScore(match.score) === itemToUpdate.outcomeBet },
-              { new: true },
-            );
-        }
-      });
+export function setOutcomeBet(matchesFinished) {
+  matchesFinished.forEach(async (match) => {
+    const betToUpdate = await Bet.findOne({ matchId: match.id });
+    if (betToUpdate) {
+      const updatedBet = await Bet.findOneAndUpdate(
+        { matchId: betToUpdate.matchId },
+        { success: getOutcomeByScore(match.score) === betToUpdate.outcomeBet },
+        { new: true },
+      );
+      console.log(updatedBet);
+    }
   });
 }
 
@@ -45,16 +43,12 @@ export async function get(req, res) {
   const { betsToCheck } = req.query;
 
   if (betsToCheck) {
-    const placedBetsQueries = betsToCheck
-      .map((matchId) => Bet.findOne({ matchId }));
+    const placedBetsQueries = betsToCheck.map((matchId) => Bet.findOne({ matchId }));
+    const placedBets = await Promise.all(placedBetsQueries);
 
-    await Promise.all(placedBetsQueries)
-      .then((data) => {
-        res.send(data.filter((bet) => bet));
-      });
+    res.send(placedBets.filter((bet) => bet));
   } else {
-    await Bet.find().then((data) => {
-      res.send(data);
-    });
+    const bets = await Bet.find();
+    res.send(bets);
   }
 }
