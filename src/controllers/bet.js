@@ -44,7 +44,6 @@ export async function get(req, res) {
   if (betsToCheck) {
     const placedBetsQueries = betsToCheck.map((matchId) => Bet.findOne({ userId, matchId }));
     const placedBets = await Promise.all(placedBetsQueries);
-    console.log(placedBets.filter((bet) => bet).map((bet) => bet.userId));
     res.send(placedBets.filter((bet) => bet));
   } else {
     const bets = await Bet.find({ userId });

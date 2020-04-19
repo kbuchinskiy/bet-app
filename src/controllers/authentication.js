@@ -26,8 +26,8 @@ export async function register(req, res) {
 
 export async function login(req, res) {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { email, password, name } = req.body;
+    const user = await User.findOne({ email, name });
 
 
     if (!user) {

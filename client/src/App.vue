@@ -33,6 +33,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>bet-app</v-toolbar-title>
       <v-spacer></v-spacer>
+      <p class="my-auto mr-8  " v-if="isLoggedIn"> {{ userData.name }} </p>
       <v-toolbar-items>
         <v-btn v-if="isLoggedIn" @click="logout" class="ml-auto">Logout</v-btn>
         <v-btn v-if="!isLoggedIn" to="/login">Sign In</v-btn>
@@ -56,6 +57,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.state.isUserLoggedIn;
+    },
+    userData() {
+      return this.$store.state.user;
     },
   },
   methods: {

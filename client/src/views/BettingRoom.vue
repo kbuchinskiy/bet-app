@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="placedBets">
       <v-col>
         <match-bet
           v-for="(match, index) in matchweek.matches"
@@ -34,7 +34,7 @@ export default {
     return {
       betCart: [],
       matchweek: [],
-      placedBets: [],
+      placedBets: null,
     };
   },
   methods: {

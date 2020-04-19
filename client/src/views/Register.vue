@@ -43,15 +43,16 @@ export default {
         const { data } = await authService.register({
           password: this.password,
           email: this.email,
+          name: this.name,
         });
         this.$store.dispatch('setToken', data.token);
         this.$store.dispatch('setUser', data.user);
+        this.$router.push('/bettingRoom');
       } catch (error) {
         this.$toast.error(error.response.data.error, {
           timeout: 3000,
         });
       }
-      // this.$store.dispatch('register', data);
     },
   },
 };

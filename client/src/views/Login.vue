@@ -41,7 +41,7 @@ export default {
     async login() {
       try {
         const { data } = await authService.login({
-          // name: this.name,
+          name: this.name,
           password: this.password,
           email: this.email,
         });

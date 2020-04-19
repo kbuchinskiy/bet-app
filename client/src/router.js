@@ -4,7 +4,6 @@ import Matchweek from './views/Matchweek.vue';
 import MatchweekCreate from './views/MatchweekCreate.vue';
 import MatchweekUpdate from './views/MatchweekUpdate.vue';
 import BettingRoom from './views/BettingRoom.vue';
-import NotFound from './views/NotFound.vue';
 import BetArchive from './views/BetArchive.vue';
 import Register from './views/Register.vue';
 import login from './views/Login.vue';
@@ -16,11 +15,6 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: '/',
-      redirect: '/matchweek',
-      name: 'home',
-    },
     {
       path: '/matchweekCreate',
       name: 'matchweek-create',
@@ -86,8 +80,8 @@ const router = new Router({
     },
     {
       path: '*',
-      name: 'not-found',
-      component: NotFound,
+      redirect: '/matchweek',
+      name: 'home',
     },
   ],
 });
