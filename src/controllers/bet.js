@@ -39,7 +39,8 @@ export function setOutcomeBet(matchesFinished) {
 }
 
 export async function get(req, res) {
-  const { betsToCheck, userId } = req.query;
+  const userId = req.user._id;
+  const { betsToCheck } = req.query;
 
   if (betsToCheck) {
     const placedBetsQueries = betsToCheck.map((matchId) => Bet.findOne({ userId, matchId }));

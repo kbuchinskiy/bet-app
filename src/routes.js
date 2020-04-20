@@ -8,6 +8,7 @@ import {
 
 import { register, login } from './controllers/authentication';
 import authenticationPolicy from './policies/authenticationPolicy';
+import isAuthenticated from './policies/isAuthenticated';
 
 export default (app) => {
   app.post('/register', authenticationPolicy, register);
@@ -21,7 +22,7 @@ export default (app) => {
 
   app.get('/bet/clean', clean);
   app.post('/bet', add);
-  app.get('/bets', get);
+  app.get('/bets', isAuthenticated, get);
 
   app.get('/teams', (req, res) => {
     res.json(['Liverpool',

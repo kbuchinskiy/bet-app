@@ -3,6 +3,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 // import ParseService from './parseService';
+import passport from 'passport';
+import initPassport from './passport';
 import dbConnect from './dbStartup';
 
 import config from './config';
@@ -16,9 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(`${__dirname}/client/dist/`));
 app.use(cors());
 
+initPassport(passport);
 
 routes(app);
-
 
 app.get('/', (req, res) => {
   fs.createReadStream(`${__dirname}/client/dist/index.html`).pipe(res);
