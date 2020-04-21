@@ -12,7 +12,7 @@ export default function (passport) {
       secretOrKey: config.auth.jwtSercet,
     }, (async (jwtPayload, done) => {
       try {
-        const { _id } = jwtPayload.user;
+        const { _id } = jwtPayload;
         const user = await User.findOne({ _id });
         if (!user) {
           return done(new Error(), false);

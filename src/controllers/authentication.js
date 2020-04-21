@@ -5,7 +5,7 @@ import config from '../config';
 
 function jwtSignUser(user) {
   const ONE_WEEK = 60 * 60 * 24 * 7;
-  return jwt.sign({ user }, config.auth.jwtSercet, {
+  return jwt.sign(user.toObject(), config.auth.jwtSercet, {
     expiresIn: ONE_WEEK,
   });
 }
@@ -43,10 +43,6 @@ export async function login(req, res) {
         error: 'Login information was incorect',
       });
     }
-
-    // const token = jwt.sign({ id: user.id }, 'supersecret', {
-    //   expiresIn: 3000, // expires in 24 hours
-    // });
 
     const token = jwtSignUser(user);
 

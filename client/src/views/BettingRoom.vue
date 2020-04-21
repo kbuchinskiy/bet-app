@@ -61,7 +61,7 @@ export default {
     },
     async getPlacedBets() {
       this.placedBets = await betService
-        .getPlacedBets(this.$store.state.user._id, this.matchweek.matches);
+        .getPlacedBets(this.matchweek.matches);
     },
     async cleanBetsCollections() {
       try {

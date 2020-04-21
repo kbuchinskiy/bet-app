@@ -6,14 +6,14 @@ export default {
     return data;
   },
 
-  async getPlacedBets(userId, matches) {
+  async getPlacedBets(matches) {
     const { data } = await api()
       .get('/bets', {
         params: {
           betsToCheck: matches.map((match) => (match.id)),
-          userId,
         },
       });
+    console.log(matches.map((match) => (match.id)));
     return data;
   },
 
