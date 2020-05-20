@@ -1,10 +1,8 @@
 <template>
-    <div class="d-flex justify-space-between align-start my-5">
-    <v-btn @click="changeMatchweek(-1)"
-      :disabled="matchweek.id === 1">Prev</v-btn>
+  <div class="d-flex justify-space-between align-start my-5" v-if="matchweek.matches.length">
+    <v-btn @click="changeMatchweek(-1)" :disabled="matchweek.id === 1">Prev</v-btn>
     <p class="ma-auto headline">Matchweek {{ matchweek.id }} of {{ matchweeksAmount }}</p>
-    <v-btn @click="changeMatchweek(1)"
-      :disabled="matchweek.id === matchweeksAmount">Next</v-btn>
+    <v-btn @click="changeMatchweek()" :disabled="matchweek.id === matchweeksAmount">Next</v-btn>
   </div>
 </template>
 
@@ -29,24 +27,23 @@ export default {
   },
   methods: {
     async updateMatchweek() {
-      this.matchweek = await matchService
-        .getMatchweekById(this.$route.params.id || 'current');
+      this.matchweek = await matchService.getMatchweekById(
+        this.$route.params.id || 'current',
+      );
       this.$emit('matchweekUpdated', this.matchweek);
     },
-    async changeMatchweek(direction) {
+    async changeMatchweek(direction = 1) {
       const nextMatchweek = this.matchweek.id + direction;
       const params = {
         id: nextMatchweek,
       };
 
-      this.$router
-        .push({ name: this.basePath, params });
+      this.$router.push({ name: this.basePath, params });
     },
     async init() {
       this.updateMatchweek();
       this.matchweeksAmount = await matchService.getTotalAmount();
     },
-
   },
   created() {
     this.init();

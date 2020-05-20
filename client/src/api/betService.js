@@ -13,7 +13,6 @@ export default {
           betsToCheck: matches.map((match) => (match.id)),
         },
       });
-    console.log(matches.map((match) => (match.id)));
     return data;
   },
 

@@ -15,12 +15,13 @@ export async function register(req, res) {
   user.password = bcrypt.hashSync(user.password, 8);
 
   try {
-    await new User(user).save();
-    const token = jwtSignUser(user);
+    const newUser = await new User(user).save();
+    const token = jwtSignUser(newUser);
+
     res.status(200).send({ auth: true, token, user });
   } catch (err) {
-    console.log(err);
-    res.status(400).send('There was a problem registering the user.');
+    console.error(err);
+    res.status(400).send({ error: 'There was a problem registering the user.' });
   }
 }
 

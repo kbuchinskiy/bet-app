@@ -54,8 +54,14 @@ export default {
   },
   methods: {
     async submit() {
-      await matchService.createMatchweek(this.matchweek);
-      this.matchweek.id += 1;
+      try {
+        await matchService.createMatchweek(this.matchweek);
+        this.matchweek.id += 1;
+        this.$toast.success('Matcweek added');
+      } catch (e) {
+        console.error(e);
+        this.$toast.success('An error occurred');
+      }
     },
   },
   async created() {
@@ -67,7 +73,7 @@ export default {
       });
     }
 
-    const { data } = await this.$http.get('http://localhost:7113/teams');
+    const { data } = await this.$http.get('http://localhost:7113/api/teams');
     this.teams = data;
 
     const matchweek = await matchService.getMatchweekById('current');

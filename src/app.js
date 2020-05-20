@@ -15,15 +15,15 @@ dbConnect();
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(`${__dirname}/client/dist/`));
+app.use(express.static(`${__dirname}/../client/dist/`));
 app.use(cors());
 
 initPassport(passport);
 
 routes(app);
 
-app.get('/', (req, res) => {
-  fs.createReadStream(`${__dirname}/client/dist/index.html`).pipe(res);
+app.get('*', (req, res) => {
+  fs.createReadStream(`${__dirname}/../client/dist/index.html`).pipe(res);
 });
 
 const server = app.listen(config.port);

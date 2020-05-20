@@ -3,7 +3,7 @@
     <matchweek-pagination
     @matchweekUpdated="updateMatchweek"
     basePath="matchweek-view-id"></matchweek-pagination>
-    <v-simple-table>
+    <v-simple-table v-if="matchweek.matches.length">
       <template v-slot:default>
         <thead>
           <tr>

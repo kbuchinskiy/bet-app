@@ -1,11 +1,10 @@
 <template>
   <v-container>
     <matchweek-pagination
-    @matchweekUpdated="updateMatchweek"
-    basePath="matchweek-update-id"
-    ></matchweek-pagination>
-    <v-form>
-      <v-row  v-for="(match, i) in this.matchweek.matches" :key="i" justify="center">
+      @matchweekUpdated="updateMatchweek"
+      basePath="matchweek-update-id"></matchweek-pagination>
+    <v-form v-if="matchweek.matches.length">
+      <v-row v-for="(match, i) in this.matchweek.matches" :key="i" justify="center">
         <v-col cols="12" sm="3">
           <v-autocomplete v-model="match.teams[0]" :items="teams" label="Home"></v-autocomplete>
         </v-col>
@@ -22,10 +21,8 @@
           <v-text-field v-model="match.odds[2]" label="2"></v-text-field>
         </v-col>
         <v-col cols="12 d-flex" sm="1">
-          <v-text-field
-            v-model="match.score[0]"></v-text-field>
-          <v-text-field
-            v-model="match.score[1]"></v-text-field>
+          <v-text-field v-model="match.score[0]"></v-text-field>
+          <v-text-field v-model="match.score[1]"></v-text-field>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -73,7 +70,7 @@ export default {
       });
     }
 
-    const { data } = await this.$http.get('http://localhost:7113/teams');
+    const { data } = await this.$http.get('http://localhost:7113/api/teams');
     this.teams = data;
   },
 };

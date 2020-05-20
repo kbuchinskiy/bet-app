@@ -11,20 +11,20 @@ import authenticationPolicy from './policies/authenticationPolicy';
 import isAuthenticated from './policies/isAuthenticated';
 
 export default (app) => {
-  app.post('/register', authenticationPolicy, register);
-  app.post('/login', login);
+  app.post('/api/register', authenticationPolicy, register);
+  app.post('/api/login', login);
 
-  app.post('/matchweek', post);
-  app.put('/matchweek/:id', put);
-  app.get('/matchweek/:id', getMatchweekById);
-  app.get('/matchweek/amount', getAmount);
+  app.post('/api/matchweek', post);
+  app.put('/api/matchweek/:id', put);
+  app.get('/api/matchweek/:id', getMatchweekById);
+  app.get('/api/matchweek/amount', getAmount);
 
 
-  app.get('/bet/clean', clean);
-  app.post('/bet', add);
-  app.get('/bets', isAuthenticated, get);
+  app.get('/api/bet/clean', clean);
+  app.post('/api/bet', add);
+  app.get('/api/bets', isAuthenticated, get);
 
-  app.get('/teams', (req, res) => {
+  app.get('/api/teams', (req, res) => {
     res.json(['Liverpool',
       'Leicester City',
       'Chelsea',
